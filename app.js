@@ -12,14 +12,21 @@ document.addEventListener("DOMContentLoaded", () => {
   initModal();
 });
 
-// CART
+
+// ================= CART =================
 function initCart() {
   updateCart();
 
   const btn = document.getElementById("cart-button");
-  if (btn) {
-    btn.onclick = () => alert("Cart:\n" + JSON.stringify(cart, null, 2));
-  }
+  const modal = document.getElementById("cart-modal");
+  const close = document.getElementById("close-cart");
+
+  btn.onclick = () => {
+    renderCart();
+    modal.classList.remove("hidden");
+  };
+
+  close.onclick = () => modal.classList.add("hidden");
 }
 
 function addToCart(id) {
@@ -30,10 +37,34 @@ function addToCart(id) {
 
 function updateCart() {
   const el = document.getElementById("cart-count");
-  if (el) el.textContent = Object.values(cart).reduce((a,b)=>a+b,0);
+  if (!el) return;
+  el.textContent = Object.values(cart).reduce((a, b) => a + b, 0);
 }
 
-// SHOP
+function renderCart() {
+  const box = document.getElementById("cart-items");
+  if (!box) return;
+
+  const items = Object.entries(cart);
+
+  if (items.length === 0) {
+    box.innerHTML = "<p>Your cart is empty</p>";
+    return;
+  }
+
+  box.innerHTML = items.map(([id, qty]) => {
+    const p = PRODUCTS.find(x => x.id === id);
+    return `
+      <div>
+        <strong>${p?.name || id}</strong>
+        <p>Qty: ${qty}</p>
+      </div>
+    `;
+  }).join("");
+}
+
+
+// ================= SHOP =================
 function initShop() {
   render(PRODUCTS);
 }
@@ -47,13 +78,18 @@ function render(list) {
 
   list.forEach(p => {
     const div = document.createElement("div");
+    div.className = "product-card";
 
     div.innerHTML = `
       <h3>${p.name}</h3>
       <p>${p.description}</p>
       <strong>$${p.price}</strong>
-      <a href="product.html?id=${p.id}">View</a>
+      <button class="view-btn">View rod</button>
     `;
+
+    div.querySelector(".view-btn").onclick = () => {
+      openProductPopup(p);
+    };
 
     grid.appendChild(div);
 
@@ -66,7 +102,8 @@ function render(list) {
   });
 }
 
-// FILTERS
+
+// ================= FILTERS =================
 function initFilters() {
   document.querySelectorAll(".filter").forEach(btn => {
     btn.onclick = () => {
@@ -76,25 +113,25 @@ function initFilters() {
   });
 }
 
-// PRODUCT PAGE
-function initProductPage() {
-  const id = new URLSearchParams(location.search).get("id");
-  const p = PRODUCTS.find(x => x.id === id);
 
-  const box = document.getElementById("product-details");
-  if (!p) return;
+// ================= PRODUCT POPUP =================
+function openProductPopup(p) {
+  const modal = document.getElementById("product-modal");
+  const box = document.getElementById("product-content");
 
   box.innerHTML = `
-    <h1>${p.name}</h1>
+    <h2>${p.name}</h2>
     <p>${p.description}</p>
     <strong>$${p.price}</strong>
+    <br><br>
     <button onclick="addToCart('${p.id}')">Add to cart</button>
   `;
 
-  renderProductReviews(id);
+  modal.classList.remove("hidden");
 }
 
-// REVIEWS
+
+// ================= REVIEWS =================
 function initReviews() {
   const form = document.getElementById("review-form");
   if (!form) return;
@@ -103,11 +140,11 @@ function initReviews() {
     e.preventDefault();
 
     reviews.push({
-      product: review-product.value,
-      name: review-name.value,
-      rating: review-rating.value,
-      title: review-title.value,
-      body: review-body.value
+      product: document.getElementById("review-product").value,
+      name: document.getElementById("review-name").value,
+      rating: document.getElementById("review-rating").value,
+      title: document.getElementById("review-title").value,
+      body: document.getElementById("review-body").value
     });
 
     localStorage.setItem("foot_reviews", JSON.stringify(reviews));
@@ -126,26 +163,22 @@ function renderReviews() {
   ).join("");
 }
 
-function renderProductReviews(id) {
-  const list = document.getElementById("product-review-list");
-  if (!list) return;
 
-  list.innerHTML = reviews
-    .filter(r => r.product === id)
-    .map(r => `<div><strong>${r.title}</strong><p>${r.body}</p></div>`)
-    .join("");
-}
-
-// MODAL
+// ================= MODALS =================
 function initModal() {
-  const modal = document.getElementById("review-modal");
-  const open = document.getElementById("open-review");
+  const reviewModal = document.getElementById("review-modal");
+  const openReview = document.getElementById("open-review");
 
-  if (open) open.onclick = () => modal.classList.remove("hidden");
+  const productModal = document.getElementById("product-modal");
+  const closeProduct = document.getElementById("close-product");
 
-  modal.onclick = e => {
-    if (e.target.dataset.closeModal !== undefined) {
-      modal.classList.add("hidden");
-    }
-  };
+  const cartModal = document.getElementById("cart-modal");
+
+  openReview.onclick = () => reviewModal.classList.remove("hidden");
+
+  document.querySelectorAll("[data-close-modal]").forEach(btn => {
+    btn.onclick = () => reviewModal.classList.add("hidden");
+  });
+
+  closeProduct.onclick = () => productModal.classList.add("hidden");
 }
