@@ -3,31 +3,39 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>FOOT — By anglers. For anglers.</title>
+  <title>FOOT — Fishing Ocean Outdoor Tackle</title>
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
 <header class="site-header">
   <div class="container nav-wrap">
+
     <a class="brand" href="index.html">
       <span class="brand-mark">FOOT</span>
-      <span class="brand-copy"><strong>FOOT</strong><small>By anglers. For anglers.</small></span>
+      <span class="brand-copy">
+        <strong>FOOT</strong>
+        <small>Fishing Ocean Outdoor Tackle</small>
+      </span>
     </a>
 
     <nav class="nav">
-      <a href="index.html">Home</a>
       <a href="#shop">Shop</a>
       <a href="#reviews">Reviews</a>
       <a href="#about">About</a>
     </nav>
 
-    <button class="cart-button" id="cart-button">🛒 <span id="cart-count">0</span></button>
+    <button class="cart-button" id="cart-button">
+      🛒 <span id="cart-count">0</span>
+    </button>
+
   </div>
 </header>
 
 <main>
 
+<!-- HERO -->
 <section class="hero">
   <div class="container hero-grid">
     <div>
@@ -38,9 +46,12 @@
   </div>
 </section>
 
+<!-- SHOP -->
 <section id="shop" class="section">
   <div class="container">
+
     <h2>Shop rods</h2>
+
     <div class="filter-row">
       <button class="filter" data-category="all">All</button>
       <button class="filter" data-category="Beginner">Beginners</button>
@@ -48,9 +59,11 @@
     </div>
 
     <div id="product-grid" class="product-grid"></div>
+
   </div>
 </section>
 
+<!-- REVIEWS -->
 <section id="reviews" class="section">
   <div class="container">
     <h2>Reviews</h2>
@@ -59,14 +72,34 @@
   </div>
 </section>
 
+<!-- ABOUT -->
 <section id="about" class="section">
   <div class="container">
     <h2>About FOOT</h2>
-    <p>By anglers. For anglers.</p>
+    <p>
+      FOOT stands for <strong>Fishing Ocean Outdoor Tackle</strong> — built by anglers, for anglers.
+    </p>
   </div>
 </section>
 
 </main>
+
+<!-- CART MODAL -->
+<div class="modal hidden" id="cart-modal">
+  <div class="modal-box">
+    <button id="close-cart">Close</button>
+    <h2>Your Cart</h2>
+    <div id="cart-items"></div>
+  </div>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div class="modal hidden" id="product-modal">
+  <div class="modal-box">
+    <button id="close-product">Close</button>
+    <div id="product-content"></div>
+  </div>
+</div>
 
 <!-- REVIEW MODAL -->
 <div class="modal hidden" id="review-modal">
@@ -76,13 +109,16 @@
     <form id="review-form">
       <select id="review-product"></select>
       <input id="review-name" placeholder="Name" required>
+
       <select id="review-rating">
         <option value="5">5</option>
         <option value="4">4</option>
         <option value="3">3</option>
       </select>
+
       <input id="review-title" placeholder="Title" required>
       <textarea id="review-body" placeholder="Review"></textarea>
+
       <button type="submit">Post</button>
     </form>
   </div>
@@ -90,5 +126,6 @@
 
 <script src="products.js"></script>
 <script src="app.js"></script>
+
 </body>
 </html>
