@@ -37,7 +37,7 @@ FOOT is a modern fishing gear website designed to help anglers find the right ro
 
 Made by **LOL-labs**
 
-👉 https://lol-lab48.github.io/LOL-labs/
+👉 https://lol-lab48.github.io/LOL-Labs/
 
 ---
 
