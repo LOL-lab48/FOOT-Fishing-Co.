@@ -18,7 +18,10 @@ body {
 }
 
 /* LAYOUT */
-.container { width:min(1100px,92%); margin:auto; }
+.container {
+  width:min(1100px,92%);
+  margin:auto;
+}
 
 /* CARDS */
 .product-card {
@@ -27,18 +30,59 @@ body {
   border-radius:14px;
   background:#0a2a34;
   margin-bottom:12px;
+  transition:.2s;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+}
+
+/* FILTER BAR */
+.filter-row {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:14px;
+  margin:20px 0;
+}
+
+.filter {
+  padding:10px 18px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.04);
+  color:white;
+  transition:.2s;
+}
+
+.filter:hover {
+  background:rgba(17,196,209,.15);
+}
+
+.filter.active {
+  background:linear-gradient(135deg,var(--ocean),var(--aqua));
+  color:#021820;
+  border:none;
 }
 
 /* BUTTON */
 button {
-  padding:10px 14px;
-  border:0;
-  border-radius:10px;
   cursor:pointer;
+  padding:10px 14px;
+  border-radius:10px;
+  border:0;
+}
+
+/* CART */
+.cart-button {
+  background:#0a2a34;
+  color:white;
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:8px 12px;
 }
 
 /* ================= MODALS ================= */
-
 .modal {
   position: fixed;
   inset: 0;
@@ -51,7 +95,7 @@ button {
 
   opacity: 0;
   pointer-events: none;
-  transition: .2s ease;
+  transition:.2s ease;
 }
 
 .modal.show {
@@ -72,18 +116,10 @@ button {
   transform:scale(1);
 }
 
-/* CART BUTTON */
-.cart-button {
-  background:#0a2a34;
-  color:white;
+/* REVIEWS */
+.review-card {
+  margin-top:10px;
+  padding:12px;
   border:1px solid var(--line);
-  border-radius:999px;
-  padding:8px 12px;
-}
-
-/* FILTERS */
-.filter-row {
-  display:flex;
-  gap:10px;
-  margin-bottom:15px;
+  border-radius:12px;
 }
