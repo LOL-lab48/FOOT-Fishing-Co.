@@ -6,8 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
   initCart();
   initFilters();
   initReviews();
+  initModals();
 });
-
 
 // ================= CART =================
 function initCart() {
@@ -17,14 +17,20 @@ function initCart() {
     renderCart();
     openModal("cart-modal");
   };
-
-  document.getElementById("close-cart").onclick = () => {
-    closeModal("cart-modal");
-  };
 }
 
 function addToCart(id) {
   cart[id] = (cart[id] || 0) + 1;
+  saveCart();
+}
+
+function removeFromCart(id) {
+  delete cart[id];
+  saveCart();
+  renderCart();
+}
+
+function saveCart() {
   localStorage.setItem("foot_cart", JSON.stringify(cart));
   updateCart();
 }
@@ -38,22 +44,28 @@ function renderCart() {
   const box = document.getElementById("cart-items");
   const items = Object.entries(cart);
 
-  if (items.length === 0) {
+  if (!items.length) {
     box.innerHTML = "<p>Your cart is empty</p>";
     return;
   }
 
+  let total = 0;
+
   box.innerHTML = items.map(([id, qty]) => {
     const p = PRODUCTS.find(x => x.id === id);
+    const cost = p.price * qty;
+    total += cost;
+
     return `
-      <div>
-        <strong>${p?.name}</strong>
+      <div style="margin-bottom:10px;">
+        <strong>${p.name}</strong>
         <p>Qty: ${qty}</p>
+        <p>$${cost}</p>
+        <button onclick="removeFromCart('${id}')">Remove</button>
       </div>
     `;
-  }).join("");
+  }).join("") + `<hr><h3>Total: $${total}</h3>`;
 }
-
 
 // ================= SHOP =================
 function initShop() {
@@ -75,7 +87,7 @@ function render(list) {
       <h3>${p.name}</h3>
       <p>${p.description}</p>
       <strong>$${p.price}</strong>
-      <button>View rod</button>
+      <button class="btn primary">View rod</button>
     `;
 
     div.querySelector("button").onclick = () => openProduct(p);
@@ -90,7 +102,6 @@ function render(list) {
     }
   });
 }
-
 
 // ================= FILTERS =================
 function initFilters() {
@@ -107,38 +118,39 @@ function initFilters() {
   });
 }
 
-
-// ================= PRODUCT POPUP =================
+// ================= PRODUCT =================
 function openProduct(p) {
   document.getElementById("product-content").innerHTML = `
     <h2>${p.name}</h2>
     <p>${p.description}</p>
     <strong>$${p.price}</strong>
     <br><br>
-    <button onclick="addToCart('${p.id}')">Add to cart</button>
+    <button class="btn primary" onclick="addToCart('${p.id}')">Add to cart</button>
   `;
 
   openModal("product-modal");
 }
 
-
 // ================= REVIEWS =================
 function initReviews() {
   const form = document.getElementById("review-form");
+
+  document.getElementById("open-review").onclick = () => {
+    openModal("review-modal");
+  };
 
   form.onsubmit = e => {
     e.preventDefault();
 
     reviews.push({
       product: document.getElementById("review-product").value,
-      name: document.getElementById("review-name").value,
-      rating: document.getElementById("review-rating").value,
       title: document.getElementById("review-title").value,
       body: document.getElementById("review-body").value
     });
 
     localStorage.setItem("foot_reviews", JSON.stringify(reviews));
     renderReviews();
+    closeModal("review-modal");
   };
 
   renderReviews();
@@ -154,8 +166,21 @@ function renderReviews() {
     `).join("");
 }
 
-
 // ================= MODALS =================
+function initModals() {
+  document.querySelectorAll("[id^='close']").forEach(btn => {
+    btn.onclick = () => {
+      btn.closest(".modal").classList.remove("show");
+    };
+  });
+
+  document.querySelectorAll(".modal").forEach(m => {
+    m.onclick = e => {
+      if (e.target === m) m.classList.remove("show");
+    };
+  });
+}
+
 function openModal(id) {
   document.getElementById(id).classList.add("show");
 }
