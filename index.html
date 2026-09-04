@@ -4,130 +4,90 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>FOOT — By anglers. For anglers.</title>
-  <meta name="description" content="FOOT — fishing rods and tackle from trusted brands, selected for anglers. By anglers. For anglers.">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
 <header class="site-header">
   <div class="container nav-wrap">
     <a class="brand" href="index.html">
       <span class="brand-mark">FOOT</span>
       <span class="brand-copy"><strong>FOOT</strong><small>By anglers. For anglers.</small></span>
     </a>
-    <nav class="nav" aria-label="Main navigation">
+
+    <nav class="nav">
       <a href="index.html">Home</a>
       <a href="#shop">Shop</a>
       <a href="#reviews">Reviews</a>
       <a href="#about">About</a>
     </nav>
-    <button class="cart-button" id="cart-button" type="button">🛒 <span id="cart-count">0</span></button>
+
+    <button class="cart-button" id="cart-button">🛒 <span id="cart-count">0</span></button>
   </div>
 </header>
 
 <main>
-  <section class="hero">
-    <div class="hero-glow"></div>
-    <div class="container hero-grid">
-      <div class="hero-copy">
-        <p class="eyebrow">FISHING • OFFSHORE • OUTDOOR • TACKLE</p>
-        <h1>Find the rod that fits <span>your fishing.</span></h1>
-        <p class="hero-description">Fishing gear from brands anglers already know, organised so finding your next setup is easier.</p>
-        <div class="hero-buttons">
-          <a href="#shop" class="btn primary">Shop rods</a>
-          <a href="#reviews" class="btn secondary">Read angler reviews</a>
-        </div>
-        <div class="trust-row"><span>✓ Trusted brands</span><span>✓ FOOT Picks</span><span>✓ Community reviews</span></div>
-      </div>
-      <div class="start-card">
-        <p class="eyebrow">START HERE</p>
-        <h2>Who are you shopping for?</h2>
-        <div class="audience-grid">
-          <button data-filter="Adult" type="button">Adults</button>
-          <button data-filter="Teen" type="button">Teens</button>
-          <button data-filter="Kid" type="button">Kids</button>
-          <button data-filter="Beginner" type="button">Beginners</button>
-        </div>
-        <p>Jump straight to rods that fit the category.</p>
-      </div>
-    </div>
-  </section>
 
-  <section class="section" id="shop">
-    <div class="container">
-      <div class="section-heading">
-        <div><p class="eyebrow">THE FOOT STORE</p><h2>Shop fishing rods</h2><p>One fully built product to start the catalogue. More are added after the first rod is right.</p></div>
-        <div class="filter-row" aria-label="Shop filters">
-          <button class="filter active" data-category="all" type="button">All</button>
-          <button class="filter" data-category="Adult" type="button">Adults</button>
-          <button class="filter" data-category="Teen" type="button">Teens</button>
-          <button class="filter" data-category="Kid" type="button">Kids</button>
-          <button class="filter" data-category="Beginner" type="button">Beginners</button>
-        </div>
-      </div>
-      <div class="brand-strip"><span>Launching with:</span><strong>Shimano</strong></div>
-      <div class="product-grid" id="product-grid"></div>
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <h1>Find the rod that fits your fishing.</h1>
+      <p>FOOT helps anglers choose gear from trusted brands.</p>
+      <a href="#shop" class="btn primary">Shop rods</a>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section class="section reviews-section" id="reviews">
-    <div class="container">
-      <div class="section-heading">
-        <div><p class="eyebrow">THE FOOT COMMUNITY</p><h2>Reviews matter.</h2><p>Read what anglers think, then add your own experience. A single report hides a review in this Draft-2 prototype.</p></div>
-        <button class="btn primary" id="open-review" type="button">Write a review</button>
-      </div>
-      <div id="review-summary"></div>
-      <div class="review-list" id="review-list"></div>
+<section id="shop" class="section">
+  <div class="container">
+    <h2>Shop rods</h2>
+    <div class="filter-row">
+      <button class="filter" data-category="all">All</button>
+      <button class="filter" data-category="Beginner">Beginners</button>
+      <button class="filter" data-category="Teen">Teens</button>
     </div>
-  </section>
 
-  <section class="section about-section" id="about">
-    <div class="container about-grid">
-      <div>
-        <p class="eyebrow">ABOUT FOOT</p>
-        <h2>By anglers. For anglers.</h2>
-        <p><strong>FOOT (Fishing • Offshore • Outdoor • Tackle)</strong> is a fishing-store concept built around making it easier to find the right gear.</p>
-        <p>We sell products from established brands and add FOOT-written notes and community reviews so shoppers can make more informed choices.</p>
-      </div>
-      <div class="about-card">
-        <h3>What FOOT is about</h3>
-        <div class="about-points"><div>🎣 <strong>Curated gear</strong></div><div>⭐ <strong>Community reviews</strong></div><div>🧭 <strong>Easy choices</strong></div><div>🌊 <strong>Built around fishing</strong></div></div>
-      </div>
-    </div>
-  </section>
+    <div id="product-grid" class="product-grid"></div>
+  </div>
+</section>
+
+<section id="reviews" class="section">
+  <div class="container">
+    <h2>Reviews</h2>
+    <button id="open-review" class="btn primary">Write review</button>
+    <div id="review-list"></div>
+  </div>
+</section>
+
+<section id="about" class="section">
+  <div class="container">
+    <h2>About FOOT</h2>
+    <p>By anglers. For anglers.</p>
+  </div>
+</section>
+
 </main>
 
-<div class="modal hidden" id="review-modal" role="dialog" aria-modal="true" aria-labelledby="review-modal-title">
-  <div class="modal-background" data-close-modal></div>
+<!-- REVIEW MODAL -->
+<div class="modal hidden" id="review-modal">
   <div class="modal-box">
-    <button class="modal-close" data-close-modal type="button" aria-label="Close">×</button>
-    <h2 id="review-modal-title">Write a review</h2>
-    <p class="muted">In Draft 2, submitted reviews appear immediately in this browser.</p>
+    <button data-close-modal>Close</button>
+
     <form id="review-form">
-      <label for="review-product">Rod</label>
-      <select id="review-product" required></select>
-      <label for="review-name">Name</label>
-      <input id="review-name" maxlength="60" required>
-      <label for="review-email">Email</label>
-      <input id="review-email" type="email" required>
-      <label for="review-rating">Rating</label>
-      <select id="review-rating" required>
-        <option value="">Choose a rating</option><option value="5">★★★★★ 5</option><option value="4">★★★★☆ 4</option><option value="3">★★★☆☆ 3</option><option value="2">★★☆☆☆ 2</option><option value="1">★☆☆☆☆ 1</option>
+      <select id="review-product"></select>
+      <input id="review-name" placeholder="Name" required>
+      <select id="review-rating">
+        <option value="5">5</option>
+        <option value="4">4</option>
+        <option value="3">3</option>
       </select>
-      <label for="review-title">Review title</label>
-      <input id="review-title" maxlength="80" required>
-      <label for="review-experience">Experience</label>
-      <select id="review-experience" required><option>Beginner</option><option>Intermediate</option><option>Pro</option></select>
-      <label for="review-type">Fishing type</label>
-      <select id="review-type" required><option>Freshwater</option><option>Saltwater</option><option>Both</option></select>
-      <label for="review-body">Review</label>
-      <textarea id="review-body" maxlength="1200" required></textarea>
-      <button class="btn primary full" type="submit">Publish review</button>
-      <p class="form-message" id="review-message"></p>
+      <input id="review-title" placeholder="Title" required>
+      <textarea id="review-body" placeholder="Review"></textarea>
+      <button type="submit">Post</button>
     </form>
   </div>
 </div>
 
-<footer class="footer"><div class="container footer-content"><div><strong>FOOT</strong><span>By anglers. For anglers.</span></div><div>Draft 2 prototype</div></div></footer>
 <script src="products.js"></script>
 <script src="app.js"></script>
 </body>
