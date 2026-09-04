@@ -27,11 +27,11 @@ body {
   margin: auto;
 }
 
-/* SECTION SPACING (IMPORTANT FOR “PRO” LOOK) */
 .section {
   padding: 90px 0;
 }
 
+/* HEADINGS */
 h1, h2, h3 {
   margin: 0 0 14px;
   letter-spacing: -0.02em;
@@ -62,8 +62,8 @@ p {
 
 .brand {
   display: flex;
-  gap: 12px;
   align-items: center;
+  gap: 12px;
 }
 
 .brand-mark {
@@ -91,10 +91,6 @@ p {
 .hero h1 {
   font-size: clamp(2.4rem, 5vw, 4.5rem);
   line-height: 1.05;
-}
-
-.hero p {
-  max-width: 600px;
 }
 
 /* ================= BUTTONS ================= */
@@ -127,9 +123,9 @@ p {
 
 .filter-row {
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
-  gap: 12px;
+  justify-content: center;
+  gap: 14px;
   margin: 25px 0 40px;
 }
 
@@ -175,10 +171,6 @@ p {
   background: rgba(255,255,255,.05);
 }
 
-.product-card h3 {
-  margin-bottom: 8px;
-}
-
 /* ================= CART BUTTON ================= */
 
 .cart-button {
@@ -187,6 +179,7 @@ p {
   border: 1px solid var(--line);
   background: rgba(255,255,255,.03);
   color: white;
+  cursor: pointer;
 }
 
 /* ================= MODALS ================= */
@@ -203,7 +196,7 @@ p {
 
   opacity: 0;
   pointer-events: none;
-  transition: .2s;
+  transition: .2s ease;
 }
 
 .modal.show {
@@ -227,11 +220,36 @@ p {
 /* ================= REVIEWS ================= */
 
 .review-card {
+  margin-top: 14px;
   padding: 16px;
   border-radius: 14px;
   border: 1px solid var(--line);
   background: rgba(255,255,255,.03);
-  margin-top: 14px;
+}
+
+/* ================= FOOTER ================= */
+
+.site-footer {
+  text-align: center;
+  padding: 30px 10px;
+  color: var(--muted);
+  font-size: 0.85rem;
+  border-top: 1px solid var(--line);
+  margin-top: 60px;
+}
+
+.site-footer a {
+  display: inline-block;
+  margin-top: 6px;
+  color: var(--aqua);
+  font-weight: 700;
+  text-decoration: none;
+  transition: .2s;
+}
+
+.site-footer a:hover {
+  transform: translateY(-2px);
+  color: white;
 }
 
 /* ================= RESPONSIVE ================= */
