@@ -1,13 +1,11 @@
 let cart = JSON.parse(localStorage.getItem("foot_cart") || "{}");
 let reviews = JSON.parse(localStorage.getItem("foot_reviews") || "[]");
 
-// INIT
 document.addEventListener("DOMContentLoaded", () => {
   initShop();
   initCart();
   initFilters();
   initReviews();
-  initModals();
 });
 
 
@@ -16,8 +14,8 @@ function initCart() {
   updateCart();
 
   document.getElementById("cart-button").onclick = () => {
-    openModal("cart-modal");
     renderCart();
+    openModal("cart-modal");
   };
 
   document.getElementById("close-cart").onclick = () => {
@@ -32,8 +30,8 @@ function addToCart(id) {
 }
 
 function updateCart() {
-  const el = document.getElementById("cart-count");
-  el.textContent = Object.values(cart).reduce((a, b) => a + b, 0);
+  document.getElementById("cart-count").textContent =
+    Object.values(cart).reduce((a, b) => a + b, 0);
 }
 
 function renderCart() {
@@ -80,9 +78,7 @@ function render(list) {
       <button>View rod</button>
     `;
 
-    div.querySelector("button").onclick = () => {
-      openProduct(p);
-    };
+    div.querySelector("button").onclick = () => openProduct(p);
 
     grid.appendChild(div);
 
@@ -100,6 +96,9 @@ function render(list) {
 function initFilters() {
   document.querySelectorAll(".filter").forEach(btn => {
     btn.onclick = () => {
+      document.querySelectorAll(".filter").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+
       const cat = btn.dataset.category;
       render(cat === "all"
         ? PRODUCTS
@@ -146,39 +145,17 @@ function initReviews() {
 }
 
 function renderReviews() {
-  const list = document.getElementById("review-list");
-
-  list.innerHTML = reviews.map(r => `
-    <div class="review-card">
-      <strong>${r.title}</strong>
-      <p>${r.body}</p>
-    </div>
-  `).join("");
+  document.getElementById("review-list").innerHTML =
+    reviews.map(r => `
+      <div class="review-card">
+        <strong>${r.title}</strong>
+        <p>${r.body}</p>
+      </div>
+    `).join("");
 }
 
 
-// ================= MODALS (CLEAN SYSTEM) =================
-function initModals() {
-  document.getElementById("close-product").onclick = () => closeModal("product-modal");
-  document.getElementById("close-review").onclick = () => closeModal("review-modal");
-
-  document.getElementById("open-review").onclick = () => openModal("review-modal");
-
-  document.getElementById("cart-modal").onclick = e => {
-    if (e.target.id === "cart-modal") closeModal("cart-modal");
-  };
-
-  document.getElementById("product-modal").onclick = e => {
-    if (e.target.id === "product-modal") closeModal("product-modal");
-  };
-
-  document.getElementById("review-modal").onclick = e => {
-    if (e.target.id === "review-modal") closeModal("review-modal");
-  };
-}
-
-
-// ================= HELPERS =================
+// ================= MODALS =================
 function openModal(id) {
   document.getElementById(id).classList.add("show");
 }
