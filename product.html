@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>FOOT Product</title>
+  <meta name="description" content="FOOT product page — product details, FOOT notes and angler reviews.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="site-header"><div class="container nav-wrap">
+  <a class="brand" href="index.html"><span class="brand-mark">FOOT</span><span class="brand-copy"><strong>FOOT</strong><small>By anglers. For anglers.</small></span></a>
+  <nav class="nav"><a href="index.html">Home</a><a href="index.html#shop">Shop</a><a href="index.html#reviews">Reviews</a><a href="index.html#about">About</a></nav>
+  <button class="cart-button" id="cart-button" type="button">🛒 <span id="cart-count">0</span></button>
+</div></header>
+
+<main class="product-page"><div class="container">
+  <a class="back-link" href="index.html#shop">← Back to rods</a>
+  <div id="product-details" class="product-detail-grid"></div>
+
+  <section class="product-reviews-section" id="product-reviews">
+    <div class="section-heading"><div><p class="eyebrow">COMMUNITY</p><h2>Reviews for this rod</h2></div><button class="btn primary" id="product-review-button" type="button">Review this rod</button></div>
+    <div id="product-review-summary"></div>
+    <div id="product-review-list" class="review-list"></div>
+  </section>
+</div></main>
+
+<div class="modal hidden" id="review-modal" role="dialog" aria-modal="true" aria-labelledby="review-modal-title">
+  <div class="modal-background" data-close-modal></div>
+  <div class="modal-box">
+    <button class="modal-close" data-close-modal type="button" aria-label="Close">×</button>
+    <h2 id="review-modal-title">Write a review</h2>
+    <form id="review-form">
+      <label for="review-product">Rod</label><select id="review-product" required></select>
+      <label for="review-name">Name</label><input id="review-name" maxlength="60" required>
+      <label for="review-email">Email</label><input id="review-email" type="email" required>
+      <label for="review-rating">Rating</label><select id="review-rating" required><option value="">Choose a rating</option><option value="5">★★★★★ 5</option><option value="4">★★★★☆ 4</option><option value="3">★★★☆☆ 3</option><option value="2">★★☆☆☆ 2</option><option value="1">★☆☆☆☆ 1</option></select>
+      <label for="review-title">Review title</label><input id="review-title" maxlength="80" required>
+      <label for="review-experience">Experience</label><select id="review-experience" required><option>Beginner</option><option>Intermediate</option><option>Pro</option></select>
+      <label for="review-type">Fishing type</label><select id="review-type" required><option>Freshwater</option><option>Saltwater</option><option>Both</option></select>
+      <label for="review-body">Review</label><textarea id="review-body" maxlength="1200" required></textarea>
+      <button class="btn primary full" type="submit">Publish review</button>
+      <p class="form-message" id="review-message"></p>
+    </form>
+  </div>
+</div>
+
+<footer class="footer"><div class="container footer-content"><div><strong>FOOT</strong><span>By anglers. For anglers.</span></div><div>Draft 2 prototype</div></div></footer>
+<script src="products.js"></script><script src="app.js"></script>
+</body>
+</html>
