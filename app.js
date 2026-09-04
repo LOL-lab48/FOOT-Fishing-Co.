@@ -3,13 +3,11 @@ let reviews = JSON.parse(localStorage.getItem("foot_reviews") || "[]");
 
 // INIT
 document.addEventListener("DOMContentLoaded", () => {
-  if (document.getElementById("product-grid")) initShop();
-  if (document.getElementById("product-details")) initProductPage();
-
+  initShop();
   initCart();
   initFilters();
   initReviews();
-  initModal();
+  initModals();
 });
 
 
@@ -17,16 +15,14 @@ document.addEventListener("DOMContentLoaded", () => {
 function initCart() {
   updateCart();
 
-  const btn = document.getElementById("cart-button");
-  const modal = document.getElementById("cart-modal");
-  const close = document.getElementById("close-cart");
-
-  btn.onclick = () => {
+  document.getElementById("cart-button").onclick = () => {
+    openModal("cart-modal");
     renderCart();
-    modal.classList.remove("hidden");
   };
 
-  close.onclick = () => modal.classList.add("hidden");
+  document.getElementById("close-cart").onclick = () => {
+    closeModal("cart-modal");
+  };
 }
 
 function addToCart(id) {
@@ -37,14 +33,11 @@ function addToCart(id) {
 
 function updateCart() {
   const el = document.getElementById("cart-count");
-  if (!el) return;
   el.textContent = Object.values(cart).reduce((a, b) => a + b, 0);
 }
 
 function renderCart() {
   const box = document.getElementById("cart-items");
-  if (!box) return;
-
   const items = Object.entries(cart);
 
   if (items.length === 0) {
@@ -56,7 +49,7 @@ function renderCart() {
     const p = PRODUCTS.find(x => x.id === id);
     return `
       <div>
-        <strong>${p?.name || id}</strong>
+        <strong>${p?.name}</strong>
         <p>Qty: ${qty}</p>
       </div>
     `;
@@ -84,11 +77,11 @@ function render(list) {
       <h3>${p.name}</h3>
       <p>${p.description}</p>
       <strong>$${p.price}</strong>
-      <button class="view-btn">View rod</button>
+      <button>View rod</button>
     `;
 
-    div.querySelector(".view-btn").onclick = () => {
-      openProductPopup(p);
+    div.querySelector("button").onclick = () => {
+      openProduct(p);
     };
 
     grid.appendChild(div);
@@ -108,18 +101,17 @@ function initFilters() {
   document.querySelectorAll(".filter").forEach(btn => {
     btn.onclick = () => {
       const cat = btn.dataset.category;
-      render(cat === "all" ? PRODUCTS : PRODUCTS.filter(p => p.category === cat));
+      render(cat === "all"
+        ? PRODUCTS
+        : PRODUCTS.filter(p => p.category === cat));
     };
   });
 }
 
 
 // ================= PRODUCT POPUP =================
-function openProductPopup(p) {
-  const modal = document.getElementById("product-modal");
-  const box = document.getElementById("product-content");
-
-  box.innerHTML = `
+function openProduct(p) {
+  document.getElementById("product-content").innerHTML = `
     <h2>${p.name}</h2>
     <p>${p.description}</p>
     <strong>$${p.price}</strong>
@@ -127,14 +119,13 @@ function openProductPopup(p) {
     <button onclick="addToCart('${p.id}')">Add to cart</button>
   `;
 
-  modal.classList.remove("hidden");
+  openModal("product-modal");
 }
 
 
 // ================= REVIEWS =================
 function initReviews() {
   const form = document.getElementById("review-form");
-  if (!form) return;
 
   form.onsubmit = e => {
     e.preventDefault();
@@ -156,29 +147,42 @@ function initReviews() {
 
 function renderReviews() {
   const list = document.getElementById("review-list");
-  if (!list) return;
 
-  list.innerHTML = reviews.map(r =>
-    `<div><strong>${r.title}</strong><p>${r.body}</p></div>`
-  ).join("");
+  list.innerHTML = reviews.map(r => `
+    <div class="review-card">
+      <strong>${r.title}</strong>
+      <p>${r.body}</p>
+    </div>
+  `).join("");
 }
 
 
-// ================= MODALS =================
-function initModal() {
-  const reviewModal = document.getElementById("review-modal");
-  const openReview = document.getElementById("open-review");
+// ================= MODALS (CLEAN SYSTEM) =================
+function initModals() {
+  document.getElementById("close-product").onclick = () => closeModal("product-modal");
+  document.getElementById("close-review").onclick = () => closeModal("review-modal");
 
-  const productModal = document.getElementById("product-modal");
-  const closeProduct = document.getElementById("close-product");
+  document.getElementById("open-review").onclick = () => openModal("review-modal");
 
-  const cartModal = document.getElementById("cart-modal");
+  document.getElementById("cart-modal").onclick = e => {
+    if (e.target.id === "cart-modal") closeModal("cart-modal");
+  };
 
-  openReview.onclick = () => reviewModal.classList.remove("hidden");
+  document.getElementById("product-modal").onclick = e => {
+    if (e.target.id === "product-modal") closeModal("product-modal");
+  };
 
-  document.querySelectorAll("[data-close-modal]").forEach(btn => {
-    btn.onclick = () => reviewModal.classList.add("hidden");
-  });
+  document.getElementById("review-modal").onclick = e => {
+    if (e.target.id === "review-modal") closeModal("review-modal");
+  };
+}
 
-  closeProduct.onclick = () => productModal.classList.add("hidden");
+
+// ================= HELPERS =================
+function openModal(id) {
+  document.getElementById(id).classList.add("show");
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove("show");
 }
