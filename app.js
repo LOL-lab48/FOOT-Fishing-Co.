@@ -1,34 +1,44 @@
 let cart = JSON.parse(localStorage.getItem("foot_cart") || "{}");
+let reviews = JSON.parse(localStorage.getItem("foot_reviews") || "[]");
 
 // INIT
 document.addEventListener("DOMContentLoaded", () => {
   render(PRODUCTS);
   initFilters();
   initCart();
+  initReviews();
 });
 
 // =======================
-// RENDER PRODUCTS
+// PRODUCTS
 // =======================
 function render(list) {
   const grid = document.getElementById("product-grid");
+  const select = document.getElementById("review-product");
+
   grid.innerHTML = "";
+  if (select) select.innerHTML = "";
 
   list.forEach(p => {
     const div = document.createElement("div");
     div.className = "product-card";
 
     div.innerHTML = `
-      <div class="product-card-inner">
-        <h3>${p.name}</h3>
-        <p class="category">${p.category}</p>
-        <p>${p.description}</p>
-        <strong>$${p.price}</strong>
-        <button class="btn primary" onclick="openProduct('${p.id}')">View</button>
-      </div>
+      <h3>${p.name}</h3>
+      <p class="category">${p.category}</p>
+      <p>${p.description}</p>
+      <strong>$${p.price}</strong>
+      <button class="btn primary" onclick="openProduct('${p.id}')">View</button>
     `;
 
     grid.appendChild(div);
+
+    if (select) {
+      const opt = document.createElement("option");
+      opt.value = p.id;
+      opt.textContent = p.name;
+      select.appendChild(opt);
+    }
   });
 }
 
@@ -42,12 +52,7 @@ function initFilters() {
       btn.classList.add("active");
 
       const cat = btn.dataset.category;
-
-      if (cat === "all") {
-        render(PRODUCTS);
-      } else {
-        render(PRODUCTS.filter(p => p.category === cat));
-      }
+      render(cat === "all" ? PRODUCTS : PRODUCTS.filter(p => p.category === cat));
     };
   });
 }
@@ -71,7 +76,6 @@ function openProduct(id) {
   modal.classList.remove("hidden");
 }
 
-// CLOSE PRODUCT MODAL
 document.addEventListener("click", e => {
   if (e.target.id === "close-product") {
     document.getElementById("product-modal").classList.add("hidden");
@@ -94,20 +98,17 @@ function initCart() {
   };
 }
 
-// ADD
 function addToCart(id) {
   cart[id] = (cart[id] || 0) + 1;
   localStorage.setItem("foot_cart", JSON.stringify(cart));
   updateCart();
 }
 
-// UPDATE COUNT
 function updateCart() {
-  const count = Object.values(cart).reduce((a, b) => a + b, 0);
-  document.getElementById("cart-count").textContent = count;
+  document.getElementById("cart-count").textContent =
+    Object.values(cart).reduce((a, b) => a + b, 0);
 }
 
-// RENDER CART
 function renderCart() {
   const container = document.getElementById("cart-items");
   const totalEl = document.getElementById("cart-total");
@@ -116,16 +117,14 @@ function renderCart() {
   let total = 0;
 
   Object.keys(cart).forEach(id => {
-    const product = PRODUCTS.find(p => p.id === id);
+    const p = PRODUCTS.find(x => x.id === id);
     const qty = cart[id];
 
-    total += product.price * qty;
+    total += p.price * qty;
 
     const div = document.createElement("div");
-    div.className = "cart-item";
-
     div.innerHTML = `
-      <span>${product.name} x${qty}</span>
+      ${p.name} x${qty}
       <button onclick="removeFromCart('${id}')">Remove</button>
     `;
 
@@ -135,10 +134,62 @@ function renderCart() {
   totalEl.textContent = "Total: $" + total;
 }
 
-// REMOVE
 function removeFromCart(id) {
   delete cart[id];
   localStorage.setItem("foot_cart", JSON.stringify(cart));
   renderCart();
   updateCart();
+}
+
+// =======================
+// REVIEWS
+// =======================
+function initReviews() {
+  const form = document.getElementById("review-form");
+
+  document.getElementById("open-review").onclick = () => {
+    document.getElementById("review-modal").classList.remove("hidden");
+  };
+
+  document.getElementById("close-review").onclick = () => {
+    document.getElementById("review-modal").classList.add("hidden");
+  };
+
+  form.onsubmit = e => {
+    e.preventDefault();
+
+    reviews.push({
+      product: review-product.value,
+      name: review-name.value,
+      rating: review-rating.value,
+      title: review-title.value,
+      body: review-body.value
+    });
+
+    localStorage.setItem("foot_reviews", JSON.stringify(reviews));
+
+    renderReviews();
+    form.reset();
+  };
+
+  renderReviews();
+}
+
+function renderReviews() {
+  const list = document.getElementById("review-list");
+
+  list.innerHTML = reviews.map((r, i) => `
+    <div class="review-card">
+      <strong>${r.title}</strong>
+      <div>${"★".repeat(r.rating)}</div>
+      <p>${r.body}</p>
+      <button onclick="reportReview(${i})">Report</button>
+    </div>
+  `).join("");
+}
+
+function reportReview(i) {
+  reviews.splice(i, 1);
+  localStorage.setItem("foot_reviews", JSON.stringify(reviews));
+  renderReviews();
 }
