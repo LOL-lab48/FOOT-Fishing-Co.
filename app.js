@@ -28,7 +28,7 @@ function render(list) {
       <p class="category">${p.category}</p>
       <p>${p.description}</p>
       <strong>$${p.price}</strong>
-      <button class="btn primary" onclick="openProduct('${p.id}')">View</button>
+      <button class="btn primary view-btn" data-id="${p.id}">View</button>
     `;
 
     grid.appendChild(div);
@@ -39,6 +39,11 @@ function render(list) {
       opt.textContent = p.name;
       select.appendChild(opt);
     }
+  });
+
+  // 🔥 FIX: attach click AFTER rendering
+  document.querySelectorAll(".view-btn").forEach(btn => {
+    btn.onclick = () => openProduct(btn.dataset.id);
   });
 }
 
@@ -70,17 +75,19 @@ function openProduct(id) {
     <h2>${p.name}</h2>
     <p>${p.description}</p>
     <h3>$${p.price}</h3>
-    <button class="btn primary" onclick="addToCart('${p.id}')">Add to cart</button>
+    <button class="btn primary add-btn" data-id="${p.id}">Add to cart</button>
   `;
 
   modal.classList.remove("hidden");
+
+  // 🔥 FIX: attach button AFTER render
+  document.querySelector(".add-btn").onclick = () => addToCart(id);
 }
 
-document.addEventListener("click", e => {
-  if (e.target.id === "close-product") {
-    document.getElementById("product-modal").classList.add("hidden");
-  }
-});
+// CLOSE PRODUCT MODAL
+document.getElementById("close-product").onclick = () => {
+  document.getElementById("product-modal").classList.add("hidden");
+};
 
 // =======================
 // CART
@@ -125,13 +132,18 @@ function renderCart() {
     const div = document.createElement("div");
     div.innerHTML = `
       ${p.name} x${qty}
-      <button onclick="removeFromCart('${id}')">Remove</button>
+      <button class="remove-btn" data-id="${id}">Remove</button>
     `;
 
     container.appendChild(div);
   });
 
   totalEl.textContent = "Total: $" + total;
+
+  // 🔥 FIX: attach remove buttons
+  document.querySelectorAll(".remove-btn").forEach(btn => {
+    btn.onclick = () => removeFromCart(btn.dataset.id);
+  });
 }
 
 function removeFromCart(id) {
@@ -183,9 +195,14 @@ function renderReviews() {
       <strong>${r.title}</strong>
       <div>${"★".repeat(r.rating)}</div>
       <p>${r.body}</p>
-      <button onclick="reportReview(${i})">Report</button>
+      <button class="report-btn" data-id="${i}">Report</button>
     </div>
   `).join("");
+
+  // 🔥 FIX: attach report buttons
+  document.querySelectorAll(".report-btn").forEach(btn => {
+    btn.onclick = () => reportReview(btn.dataset.id);
+  });
 }
 
 function reportReview(i) {
