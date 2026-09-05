@@ -45,6 +45,7 @@
   </div>
 </section>
 
+<!-- SHOP -->
 <section id="shop" class="section container">
 
   <h2>Shop</h2>
@@ -58,6 +59,23 @@
 
   <div id="product-grid" class="product-grid"></div>
 
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews" class="section container">
+  <h2>Reviews</h2>
+
+  <button id="open-review" class="btn primary">Write Review</button>
+
+  <div id="review-list"></div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="section container">
+  <h2>About FOOT</h2>
+  <p>
+    FOOT™ stands for <strong>Fishing Ocean Outdoor Tackle</strong> — built by anglers, for anglers.
+  </p>
 </section>
 
 </main>
@@ -80,8 +98,39 @@
   </div>
 </div>
 
+<!-- REVIEW MODAL -->
+<div class="modal hidden" id="review-modal">
+  <div class="modal-box">
+    <button id="close-review">✕</button>
+
+    <form id="review-form">
+      <select id="review-product"></select>
+      <input id="review-name" placeholder="Name" required>
+
+      <select id="review-rating">
+        <option value="5">★★★★★</option>
+        <option value="4">★★★★</option>
+        <option value="3">★★★</option>
+      </select>
+
+      <input id="review-title" placeholder="Title" required>
+      <textarea id="review-body" placeholder="Your review"></textarea>
+
+      <button class="btn primary" type="submit">Post Review</button>
+    </form>
+  </div>
+</div>
+
+<!-- FOOTER -->
 <footer class="site-footer">
   <div>© 2026 FOOT™ Fishing & Co.</div>
+
+  <div class="lol-labs">
+    Made by <strong>LOL-labs</strong><br>
+    <a href="https://lol-lab48.github.io/LOL-Labs/" target="_blank">
+      Click here to find out more
+    </a>
+  </div>
 </footer>
 
 <script src="products.js"></script>
