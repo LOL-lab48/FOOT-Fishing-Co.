@@ -7,7 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
   initCart();
 });
 
+// =======================
 // RENDER PRODUCTS
+// =======================
 function render(list) {
   const grid = document.getElementById("product-grid");
   grid.innerHTML = "";
@@ -17,17 +19,22 @@ function render(list) {
     div.className = "product-card";
 
     div.innerHTML = `
-      <h3>${p.name}</h3>
-      <p>${p.description}</p>
-      <strong>$${p.price}</strong>
-      <button onclick="openProduct('${p.id}')">View</button>
+      <div class="product-card-inner">
+        <h3>${p.name}</h3>
+        <p class="category">${p.category}</p>
+        <p>${p.description}</p>
+        <strong>$${p.price}</strong>
+        <button class="btn primary" onclick="openProduct('${p.id}')">View</button>
+      </div>
     `;
 
     grid.appendChild(div);
   });
 }
 
+// =======================
 // FILTERS
+// =======================
 function initFilters() {
   document.querySelectorAll(".filter").forEach(btn => {
     btn.onclick = () => {
@@ -35,12 +42,19 @@ function initFilters() {
       btn.classList.add("active");
 
       const cat = btn.dataset.category;
-      render(cat === "all" ? PRODUCTS : PRODUCTS.filter(p => p.category === cat));
+
+      if (cat === "all") {
+        render(PRODUCTS);
+      } else {
+        render(PRODUCTS.filter(p => p.category === cat));
+      }
     };
   });
 }
 
+// =======================
 // PRODUCT MODAL
+// =======================
 function openProduct(id) {
   const modal = document.getElementById("product-modal");
   const content = document.getElementById("product-content");
@@ -51,20 +65,22 @@ function openProduct(id) {
     <h2>${p.name}</h2>
     <p>${p.description}</p>
     <h3>$${p.price}</h3>
-    <button onclick="addToCart('${p.id}')">Add to cart</button>
+    <button class="btn primary" onclick="addToCart('${p.id}')">Add to cart</button>
   `;
 
   modal.classList.remove("hidden");
 }
 
-// CLOSE PRODUCT
+// CLOSE PRODUCT MODAL
 document.addEventListener("click", e => {
   if (e.target.id === "close-product") {
     document.getElementById("product-modal").classList.add("hidden");
   }
 });
 
+// =======================
 // CART
+// =======================
 function initCart() {
   updateCart();
 
@@ -78,15 +94,17 @@ function initCart() {
   };
 }
 
+// ADD
 function addToCart(id) {
   cart[id] = (cart[id] || 0) + 1;
   localStorage.setItem("foot_cart", JSON.stringify(cart));
   updateCart();
 }
 
+// UPDATE COUNT
 function updateCart() {
-  document.getElementById("cart-count").textContent =
-    Object.values(cart).reduce((a, b) => a + b, 0);
+  const count = Object.values(cart).reduce((a, b) => a + b, 0);
+  document.getElementById("cart-count").textContent = count;
 }
 
 // RENDER CART
@@ -104,8 +122,10 @@ function renderCart() {
     total += product.price * qty;
 
     const div = document.createElement("div");
+    div.className = "cart-item";
+
     div.innerHTML = `
-      ${product.name} x${qty}
+      <span>${product.name} x${qty}</span>
       <button onclick="removeFromCart('${id}')">Remove</button>
     `;
 
@@ -115,7 +135,7 @@ function renderCart() {
   totalEl.textContent = "Total: $" + total;
 }
 
-// REMOVE ITEM
+// REMOVE
 function removeFromCart(id) {
   delete cart[id];
   localStorage.setItem("foot_cart", JSON.stringify(cart));
