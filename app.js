@@ -13,10 +13,13 @@ document.addEventListener("DOMContentLoaded", () => {
 function initCart() {
   updateCart();
 
-  document.getElementById("cart-button").onclick = () => {
-    renderCart();
-    openModal("cart-modal");
-  };
+  const btn = document.getElementById("cart-button");
+  if (btn) {
+    btn.onclick = () => {
+      renderCart();
+      openModal("cart-modal");
+    };
+  }
 }
 
 function addToCart(id) {
@@ -24,15 +27,16 @@ function addToCart(id) {
   saveCart();
 }
 
-function removeFromCart(id) {
-  delete cart[id];
+function changeQty(id, delta) {
+  if (!cart[id]) return;
+  cart[id] += delta;
+  if (cart[id] <= 0) delete cart[id];
   saveCart();
   renderCart();
 }
 
-function changeQty(id, delta) {
-  cart[id] += delta;
-  if (cart[id] <= 0) delete cart[id];
+function removeFromCart(id) {
+  delete cart[id];
   saveCart();
   renderCart();
 }
@@ -43,15 +47,20 @@ function saveCart() {
 }
 
 function updateCart() {
+  const el = document.getElementById("cart-count");
+  if (!el) return;
+
   const count = Object.values(cart).reduce((a,b)=>a+b,0);
-  document.getElementById("cart-count").textContent = count;
+  el.textContent = count;
 }
 
 function renderCart() {
   const box = document.getElementById("cart-items");
+  if (!box) return;
+
   const items = Object.entries(cart);
 
-  if (!items.length) {
+  if (items.length === 0) {
     box.innerHTML = "<p>Your cart is empty</p>";
     return;
   }
@@ -60,24 +69,33 @@ function renderCart() {
 
   box.innerHTML = items.map(([id, qty]) => {
     const p = PRODUCTS.find(x => x.id === id);
+    if (!p) return "";
+
     const cost = p.price * qty;
     total += cost;
 
     return `
       <div class="cart-item">
-        <strong>${p.name}</strong>
-        <p>$${p.price} x ${qty}</p>
+        <div>
+          <strong>${p.name}</strong>
+          <p>$${p.price} × ${qty}</p>
+        </div>
 
         <div class="cart-controls">
           <button onclick="changeQty('${id}', -1)">−</button>
+          <span>${qty}</span>
           <button onclick="changeQty('${id}', 1)">+</button>
-          <button onclick="removeFromCart('${id}')">Remove</button>
         </div>
 
-        <p><strong>$${cost}</strong></p>
+        <div class="cart-actions">
+          <p>$${cost}</p>
+          <button onclick="removeFromCart('${id}')">✕</button>
+        </div>
       </div>
     `;
-  }).join("") + `<hr><h3>Total: $${total}</h3>`;
+  }).join("");
+
+  box.innerHTML += `<div class="cart-total">Total: $${total}</div>`;
 }
 
 // ================= SHOP =================
@@ -88,6 +106,8 @@ function initShop() {
 function render(list) {
   const grid = document.getElementById("product-grid");
   const select = document.getElementById("review-product");
+
+  if (!grid) return;
 
   grid.innerHTML = "";
   if (select) select.innerHTML = "";
@@ -105,7 +125,6 @@ function render(list) {
     `;
 
     div.querySelector("button").onclick = () => openProduct(p);
-
     grid.appendChild(div);
 
     if (select) {
@@ -151,10 +170,13 @@ function openProduct(p) {
 // ================= REVIEWS =================
 function initReviews() {
   const form = document.getElementById("review-form");
+  const openBtn = document.getElementById("open-review");
 
-  document.getElementById("open-review").onclick = () => {
-    openModal("review-modal");
-  };
+  if (openBtn) {
+    openBtn.onclick = () => openModal("review-modal");
+  }
+
+  if (!form) return;
 
   form.onsubmit = e => {
     e.preventDefault();
@@ -169,9 +191,9 @@ function initReviews() {
     });
 
     localStorage.setItem("foot_reviews", JSON.stringify(reviews));
-    renderReviews();
-    closeModal("review-modal");
     form.reset();
+    closeModal("review-modal");
+    renderReviews();
   };
 
   renderReviews();
@@ -183,8 +205,16 @@ function getStars(n) {
 
 function renderReviews() {
   const list = document.getElementById("review-list");
+  if (!list) return;
 
-  list.innerHTML = reviews.map((r, i) => `
+  const visible = reviews.filter(r => !r.reported);
+
+  if (visible.length === 0) {
+    list.innerHTML = "<p>No reviews yet</p>";
+    return;
+  }
+
+  list.innerHTML = visible.map((r, i) => `
     <div class="review-card">
       <div class="review-top">
         <strong>${r.title}</strong>
@@ -194,8 +224,8 @@ function renderReviews() {
       <p>${r.body}</p>
       <small>— ${r.name}</small>
 
-      <button class="report-btn" onclick="reportReview(${i})">
-        ${r.reported ? "Reported ⚠️" : "Report"}
+      <button class="report-btn" onclick="reportReview(${reviews.indexOf(r)})">
+        Report
       </button>
     </div>
   `).join("");
