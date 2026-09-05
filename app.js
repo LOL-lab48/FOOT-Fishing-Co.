@@ -30,14 +30,21 @@ function removeFromCart(id) {
   renderCart();
 }
 
+function changeQty(id, delta) {
+  cart[id] += delta;
+  if (cart[id] <= 0) delete cart[id];
+  saveCart();
+  renderCart();
+}
+
 function saveCart() {
   localStorage.setItem("foot_cart", JSON.stringify(cart));
   updateCart();
 }
 
 function updateCart() {
-  document.getElementById("cart-count").textContent =
-    Object.values(cart).reduce((a, b) => a + b, 0);
+  const count = Object.values(cart).reduce((a,b)=>a+b,0);
+  document.getElementById("cart-count").textContent = count;
 }
 
 function renderCart() {
@@ -57,11 +64,17 @@ function renderCart() {
     total += cost;
 
     return `
-      <div style="margin-bottom:10px;">
+      <div class="cart-item">
         <strong>${p.name}</strong>
-        <p>Qty: ${qty}</p>
-        <p>$${cost}</p>
-        <button onclick="removeFromCart('${id}')">Remove</button>
+        <p>$${p.price} x ${qty}</p>
+
+        <div class="cart-controls">
+          <button onclick="changeQty('${id}', -1)">−</button>
+          <button onclick="changeQty('${id}', 1)">+</button>
+          <button onclick="removeFromCart('${id}')">Remove</button>
+        </div>
+
+        <p><strong>$${cost}</strong></p>
       </div>
     `;
   }).join("") + `<hr><h3>Total: $${total}</h3>`;
@@ -87,6 +100,7 @@ function render(list) {
       <h3>${p.name}</h3>
       <p>${p.description}</p>
       <strong>$${p.price}</strong>
+      <br><br>
       <button class="btn primary">View rod</button>
     `;
 
@@ -111,14 +125,17 @@ function initFilters() {
       btn.classList.add("active");
 
       const cat = btn.dataset.category;
-      render(cat === "all"
-        ? PRODUCTS
-        : PRODUCTS.filter(p => p.category === cat));
+
+      render(
+        cat === "all"
+          ? PRODUCTS
+          : PRODUCTS.filter(p => p.category === cat)
+      );
     };
   });
 }
 
-// ================= PRODUCT =================
+// ================= PRODUCT MODAL =================
 function openProduct(p) {
   document.getElementById("product-content").innerHTML = `
     <h2>${p.name}</h2>
@@ -144,26 +161,50 @@ function initReviews() {
 
     reviews.push({
       product: document.getElementById("review-product").value,
+      name: document.getElementById("review-name").value,
+      rating: parseInt(document.getElementById("review-rating").value),
       title: document.getElementById("review-title").value,
-      body: document.getElementById("review-body").value
+      body: document.getElementById("review-body").value,
+      reported: false
     });
 
     localStorage.setItem("foot_reviews", JSON.stringify(reviews));
     renderReviews();
     closeModal("review-modal");
+    form.reset();
   };
 
   renderReviews();
 }
 
+function getStars(n) {
+  return "★".repeat(n) + "☆".repeat(5 - n);
+}
+
 function renderReviews() {
-  document.getElementById("review-list").innerHTML =
-    reviews.map(r => `
-      <div class="review-card">
+  const list = document.getElementById("review-list");
+
+  list.innerHTML = reviews.map((r, i) => `
+    <div class="review-card">
+      <div class="review-top">
         <strong>${r.title}</strong>
-        <p>${r.body}</p>
+        <span class="stars">${getStars(r.rating)}</span>
       </div>
-    `).join("");
+
+      <p>${r.body}</p>
+      <small>— ${r.name}</small>
+
+      <button class="report-btn" onclick="reportReview(${i})">
+        ${r.reported ? "Reported ⚠️" : "Report"}
+      </button>
+    </div>
+  `).join("");
+}
+
+function reportReview(index) {
+  reviews[index].reported = true;
+  localStorage.setItem("foot_reviews", JSON.stringify(reviews));
+  renderReviews();
 }
 
 // ================= MODALS =================
