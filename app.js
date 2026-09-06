@@ -52,9 +52,26 @@ function addToCart(id){
   saveCart();
 }
 
+function increaseQty(id){
+  cart[id]++;
+  saveCart();
+}
+
+function decreaseQty(id){
+  cart[id]--;
+  if(cart[id] <= 0) delete cart[id];
+  saveCart();
+}
+
+function removeFromCart(id){
+  delete cart[id];
+  saveCart();
+}
+
 function saveCart(){
   localStorage.setItem("foot_cart", JSON.stringify(cart));
   updateCart();
+  renderCart();
 }
 
 function updateCart(){
@@ -77,14 +94,25 @@ function renderCart(){
 
     return `
       <div class="cart-item">
-        <span>${p.name}</span>
-        <strong>x${cart[id]}</strong>
+        <div>
+          <strong>${p.name}</strong>
+          <p>$${p.price}</p>
+        </div>
+
+        <div class="qty-controls">
+          <button onclick="decreaseQty('${id}')">−</button>
+          <span>${cart[id]}</span>
+          <button onclick="increaseQty('${id}')">+</button>
+        </div>
+
+        <button onclick="removeFromCart('${id}')">✕</button>
       </div>
     `;
   }).join("");
 
   totalEl.textContent = "Total: $" + total;
 
+  // SHIPPING MESSAGE
   if(total === 0){
     progress.innerHTML = "Start your order to unlock FREE shipping over $150 🚚";
   } else if(total < 100){
@@ -94,6 +122,22 @@ function renderCart(){
   } else {
     progress.innerHTML = "✅ FREE SHIPPING unlocked!";
   }
+
+  // ✅ CHECKOUT BUTTON
+  box.innerHTML += `
+    <button class="btn primary" style="width:100%; margin-top:15px;" onclick="checkout()">
+      Checkout
+    </button>
+  `;
+}
+
+/* ================= CHECKOUT ================= */
+
+function checkout(){
+  alert("Sorry, we're not ready for payments yet.\nPlease fill out the enquiry form and we'll get back to you shortly.");
+
+  closeModal("cart-modal");
+  openModal("order-modal");
 }
 
 /* ================= SHOP ================= */
@@ -210,7 +254,7 @@ Message:
 ${msg}`
     );
 
-    window.location.href = `mailto:your@email.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:Gabe.karekinian@gmail.com?subject=${subject}&body=${body}`;
   };
 }
 
