@@ -9,18 +9,6 @@ const PERMANENT_REVIEWS = [
     title: "Early Review",
     body: "Excited to see this grow.",
     rating: 5
-  },
-  {
-    name: "Jake M.",
-    title: "Great beginner rod",
-    body: "Super easy to use and feels solid. Good first setup.",
-    rating: 5
-  },
-  {
-    name: "Anonymous",
-    title: "Good value",
-    body: "Does what it says. Shipping was quick too.",
-    rating: 4
   }
 ];
 
@@ -112,7 +100,6 @@ function renderCart(){
 
   totalEl.textContent = "Total: $" + total;
 
-  // SHIPPING MESSAGE
   if(total === 0){
     progress.innerHTML = "Start your order to unlock FREE shipping over $150 🚚";
   } else if(total < 100){
@@ -123,9 +110,13 @@ function renderCart(){
     progress.innerHTML = "✅ FREE SHIPPING unlocked!";
   }
 
-  // ✅ CHECKOUT BUTTON
+  // buttons
   box.innerHTML += `
-    <button class="btn primary" style="width:100%; margin-top:15px;" onclick="checkout()">
+    <button class="btn primary" style="width:100%; margin-top:10px;" onclick="openEnquiry()">
+      Send Enquiry
+    </button>
+
+    <button class="btn primary" style="width:100%; margin-top:10px;" onclick="checkout()">
       Checkout
     </button>
   `;
@@ -136,6 +127,11 @@ function renderCart(){
 function checkout(){
   alert("Sorry, we're not ready for payments yet.\nPlease fill out the enquiry form and we'll get back to you shortly.");
 
+  closeModal("cart-modal");
+  openModal("order-modal");
+}
+
+function openEnquiry(){
   closeModal("cart-modal");
   openModal("order-modal");
 }
@@ -177,7 +173,6 @@ function render(list){
       ${p.top ? '<div class="badge">🔥 Top Pick</div>' : ''}
 
       <h3>${p.name}</h3>
-
       <p>${p.description}</p>
 
       <div class="rating">⭐⭐⭐⭐⭐</div>
@@ -187,10 +182,6 @@ function render(list){
           ? `<span class="old">$${p.oldPrice}</span> <strong>$${p.price}</strong>`
           : `<strong>$${p.price}</strong>`}
       </div>
-
-      <p style="color:var(--muted); font-size:13px;">
-        Popular with beginner anglers
-      </p>
 
       <div class="card-actions">
         <button class="btn primary" onclick="openProduct('${p.id}')">View</button>
