@@ -37,32 +37,35 @@
 <p>Find the perfect rod — not just any rod.</p>
 </section>
 
-<!-- SHOP -->
 <section id="shop" class="container">
+
 <h2>Shop</h2>
 
-<div id="product-grid"></div>
+<div class="filter-row">
+<button class="filter active" data-category="all">All</button>
+<button class="filter" data-category="Beginner">Beginners</button>
+<button class="filter" data-category="Teen">Teens</button>
+</div>
+
+<div id="product-grid" class="product-grid"></div>
+
 </section>
 
-<!-- CONTACT / ORDER FORM -->
+<!-- ORDER FORM -->
 <section id="contact" class="container">
 <h2>Order / Enquiry</h2>
 
 <form id="order-form">
 
 <input type="text" id="cust-name" placeholder="Your name" required>
-
 <input type="email" id="cust-email" placeholder="Your email" required>
-
 <input type="text" id="location" placeholder="Where are you located?" required>
 
-<select id="product-select">
-<option value="">Select a rod</option>
-</select>
+<select id="product-select"></select>
 
-<textarea id="message" placeholder="Extra details (optional)"></textarea>
+<textarea id="message" placeholder="Extra details"></textarea>
 
-<button type="submit" class="btn primary">Send Enquiry</button>
+<button type="submit">Send Enquiry</button>
 
 </form>
 </section>
@@ -75,6 +78,51 @@
 
 <div id="review-list"></div>
 </section>
+
+<!-- CART -->
+<div class="modal hidden" id="cart-modal">
+<div class="modal-box">
+<button id="close-cart">Close</button>
+
+<h2>Your Cart</h2>
+
+<div id="shipping-progress"></div>
+
+<div id="cart-items"></div>
+<h3 id="cart-total">Total: $0</h3>
+</div>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div class="modal hidden" id="product-modal">
+<div class="modal-box">
+<button id="close-product">Close</button>
+<div id="product-content"></div>
+</div>
+</div>
+
+<!-- REVIEW MODAL -->
+<div class="modal hidden" id="review-modal">
+<div class="modal-box">
+<button id="close-review">Close</button>
+
+<form id="review-form">
+<input id="review-name" placeholder="Name (or Anonymous)">
+<select id="review-product"></select>
+
+<select id="review-rating">
+<option value="5">5</option>
+<option value="4">4</option>
+<option value="3">3</option>
+</select>
+
+<input id="review-title" placeholder="Title" required>
+<textarea id="review-body"></textarea>
+
+<button type="submit">Post</button>
+</form>
+</div>
+</div>
 
 <footer>
 © 2026 FOOT Fishing and Co.
