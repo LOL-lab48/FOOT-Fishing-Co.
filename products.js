@@ -1,84 +1,53 @@
 const PRODUCTS = [
-  // 🎣 RODS - BEGINNER
+
+  // RODS
   {
     id: "rod1",
     name: "Shimano Raider",
-    description: "Versatile and durable graphite rod. Perfect for everyday anglers.",
+    description: "Reliable beginner rod.",
     price: 139,
     category: "Beginner",
-    type: "Rod",
+    top: true
+  },
+  {
+    id: "rod2",
+    name: "Daiwa TD Battler AGS",
+    description: "High-end performance rod.",
+    price: 650,
+    oldPrice: 750,
+    onSale: true,
+    category: "Teen",
     top: true
   },
   {
     id: "rod3",
     name: "Daiwa Aird X",
-    description: "Lightweight, affordable rod great for estuary fishing.",
+    description: "Budget lightweight rod.",
     price: 65,
-    category: "Beginner",
-    type: "Rod",
-    top: true
+    category: "Teen"
   },
 
-  // 🎣 RODS - TEEN
-  {
-    id: "rod2",
-    name: "Daiwa TD Battler AGS",
-    description: "High-end rod with AGS carbon guides and ultra sensitivity.",
-    price: 750,
-    category: "Teen",
-    type: "Rod"
-  },
-  {
-    id: "rod4",
-    name: "Shimano Zodias",
-    description: "Hi-Power X construction with premium performance feel.",
-    price: 350,
-    category: "Teen",
-    type: "Rod"
-  },
-  {
-    id: "rod5",
-    name: "Shimano Poison Adrena",
-    description: "Top-tier sensitivity and casting accuracy.",
-    price: 580,
-    category: "Teen",
-    type: "Rod"
-  },
-
-  // 🪝 TACKLE
-  {
-    id: "tackle1",
-    name: "Pro Jig Head Pack",
-    description: "Strong jig heads for soft plastics.",
-    price: 12,
-    category: "Beginner",
-    type: "Tackle"
-  },
-  {
-    id: "tackle2",
-    name: "Swivel Pack",
-    description: "Prevents line twist.",
-    price: 8,
-    category: "Beginner",
-    type: "Tackle"
-  },
-
-  // 🐟 BAIT
+  // BAIT & TACKLE
   {
     id: "bait1",
-    name: "Soft Plastic Worms",
-    description: "Deadly for bass and estuary species.",
-    price: 10,
-    category: "Beginner",
-    type: "Bait"
+    name: "Soft Plastic Worm Pack",
+    description: "Perfect for bass fishing.",
+    price: 12,
+    category: "Tackle"
   },
   {
     id: "bait2",
-    name: "Paddle Tail Lures",
-    description: "Realistic swimming action.",
-    price: 14,
-    category: "Teen",
-    type: "Bait",
-    top: true
+    name: "Spinner Lure Kit",
+    description: "Great for beginners.",
+    price: 18,
+    category: "Tackle"
+  },
+  {
+    id: "bait3",
+    name: "Fishing Hook Set",
+    description: "Durable hooks for all setups.",
+    price: 10,
+    category: "Tackle"
   }
+
 ];
