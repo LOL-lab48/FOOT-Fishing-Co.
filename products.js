@@ -49,7 +49,7 @@ const PRODUCTS = [
   price: 120,
   category: "Beginner",
   top: true,
-  image: "images/Rod1.png"
+  image: "images/rod1.png"
 },
 
   /* ================= BAIT ================= */
