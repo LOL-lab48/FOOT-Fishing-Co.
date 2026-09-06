@@ -21,6 +21,7 @@ body{
   line-height:1.6;
   min-height:100vh;
   -webkit-font-smoothing:antialiased;
+  padding:0;
 }
 
 /* LAYOUT */
@@ -28,20 +29,50 @@ body{
   width:92%;
   max-width:1150px;
   margin:auto;
+  padding-top:10px;
+  padding-bottom:10px;
 }
 
-/* SHIPPING BAR (UPGRADED LOOK) */
+/* =========================
+   SPACING UPGRADE (IMPORTANT)
+   ========================= */
+
+.section{
+  padding:90px 0; /* BIGGER SPACE = more premium feel */
+}
+
+.hero{
+  padding:110px 0;
+}
+
+/* TEXT SPACING */
+h1,h2,h3{
+  margin-bottom:14px;
+}
+
+p{
+  margin-bottom:12px;
+  color:var(--muted);
+}
+
+/* =========================
+   SHIPPING BAR
+   ========================= */
+
 .shipping-bar{
   text-align:center;
-  padding:10px;
+  padding:14px;
   font-weight:800;
   background:linear-gradient(90deg,var(--accent),var(--accent2));
   color:#012027;
-  letter-spacing:.6px;
+  letter-spacing:.7px;
   font-size:14px;
 }
 
-/* HEADER */
+/* =========================
+   HEADER
+   ========================= */
+
 .site-header{
   position:sticky;
   top:0;
@@ -51,16 +82,15 @@ body{
   z-index:10;
 }
 
-/* NAV WRAP FIX (better spacing + alignment) */
 .nav-wrap{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:16px 0;
+  padding:20px 0; /* more breathing room */
   gap:20px;
 }
 
-/* BRAND (more premium) */
+/* BRAND */
 .brand{
   font-weight:900;
   font-size:20px;
@@ -79,20 +109,20 @@ nav a{
   text-decoration:none;
   color:var(--muted);
   font-weight:600;
-  transition:.2s;
   position:relative;
+  transition:.2s;
 }
 
 nav a:hover{
-  color:white;
+  color:#fff;
 }
 
-/* underline hover animation (BIG UPGRADE) */
+/* hover underline (premium feel) */
 nav a::after{
   content:"";
   position:absolute;
   left:0;
-  bottom:-4px;
+  bottom:-5px;
   width:0%;
   height:2px;
   background:var(--accent);
@@ -103,7 +133,35 @@ nav a:hover::after{
   width:100%;
 }
 
-/* CART BUTTON (if used) */
+/* =========================
+   BUTTONS
+   ========================= */
+
+.btn{
+  display:inline-block;
+  padding:10px 16px;
+  border-radius:10px;
+  border:none;
+  cursor:pointer;
+  text-decoration:none;
+  font-weight:700;
+  transition:.2s;
+  margin-top:6px;
+}
+
+.btn.primary{
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  color:#012027;
+}
+
+.btn.primary:hover{
+  transform:translateY(-2px);
+}
+
+/* =========================
+   CART BUTTON
+   ========================= */
+
 .cart-button{
   background:linear-gradient(90deg,#0b2a33,#0e3a47);
   border:1px solid rgba(255,255,255,0.08);
@@ -119,59 +177,42 @@ nav a:hover::after{
   border-color:var(--accent);
 }
 
-/* HERO (adds spacing consistency if used later) */
-.hero{
-  padding:60px 0;
-}
+/* =========================
+   PRODUCT GRID (SPACED)
+   ========================= */
 
-/* BUTTON BASE (fix missing UI consistency) */
-.btn{
-  display:inline-block;
-  padding:10px 16px;
-  border-radius:10px;
-  border:none;
-  cursor:pointer;
-  text-decoration:none;
-  font-weight:700;
-  transition:.2s;
-}
-
-.btn.primary{
-  background:linear-gradient(90deg,var(--accent),var(--accent2));
-  color:#012027;
-}
-
-.btn.primary:hover{
-  transform:translateY(-2px);
-}
-
-/* SECTION SPACING */
-.section{
-  padding:60px 0;
-}
-
-/* PRODUCT GRID (for future safety) */
 .product-grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:18px;
+  gap:26px; /* MORE SPACE */
+  margin-top:20px;
 }
 
-/* PRODUCT CARD (modern feel upgrade) */
+/* PRODUCT CARD */
 .product-card{
   background:linear-gradient(180deg,var(--card),#061a21);
-  padding:16px;
+  padding:18px;
   border-radius:14px;
   border:1px solid rgba(255,255,255,0.06);
   transition:.2s;
 }
 
 .product-card:hover{
-  transform:translateY(-4px);
+  transform:translateY(-5px);
   border-color:rgba(17,196,209,0.4);
 }
 
-/* FILTER BUTTONS */
+/* =========================
+   FILTERS
+   ========================= */
+
+.filter-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-bottom:25px;
+}
+
 .filter{
   background:var(--card);
   color:var(--muted);
@@ -192,7 +233,10 @@ nav a:hover::after{
   color:#012027;
 }
 
-/* MODAL FIX */
+/* =========================
+   MODALS
+   ========================= */
+
 .modal{
   position:fixed;
   inset:0;
@@ -208,19 +252,22 @@ nav a:hover::after{
 
 .modal-box{
   background:linear-gradient(180deg,var(--card),#061a21);
-  padding:20px;
+  padding:26px;
   border-radius:14px;
   width:92%;
   max-width:520px;
   border:1px solid rgba(255,255,255,0.08);
 }
 
-/* CART ITEMS FIX */
+/* =========================
+   CART ITEMS
+   ========================= */
+
 .cart-item{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:10px;
+  padding:12px;
   margin:10px 0;
   background:rgba(255,255,255,0.03);
   border-radius:10px;
@@ -243,14 +290,20 @@ nav a:hover::after{
   cursor:pointer;
 }
 
-/* FOOTER */
+/* =========================
+   FOOTER
+   ========================= */
+
 .site-footer{
   text-align:center;
-  padding:30px 0;
+  padding:50px 0; /* more premium spacing */
   color:var(--muted);
 }
 
-/* MOBILE */
+/* =========================
+   MOBILE
+   ========================= */
+
 @media (max-width:768px){
   nav{
     gap:14px;
@@ -259,5 +312,13 @@ nav a:hover::after{
 
   .brand{
     font-size:18px;
+  }
+
+  .hero{
+    padding:80px 0;
+  }
+
+  .section{
+    padding:70px 0;
   }
 }
