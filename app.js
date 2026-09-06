@@ -9,6 +9,18 @@ const PERMANENT_REVIEWS = [
     title: "Early Review",
     body: "Excited to see this grow.",
     rating: 5
+  },
+  {
+    name: "Jake M.",
+    title: "Great beginner rod",
+    body: "Super easy to use and feels solid. Good first setup.",
+    rating: 5
+  },
+  {
+    name: "Anonymous",
+    title: "Good value",
+    body: "Does what it says. Shipping was quick too.",
+    rating: 4
   }
 ];
 
@@ -20,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initOrderForm();
 });
 
-/* CART */
+/* ================= CART ================= */
 
 function initCart(){
   updateCart();
@@ -59,9 +71,16 @@ function renderCart(){
 
   box.innerHTML = Object.keys(cart).map(id=>{
     const p = PRODUCTS.find(x=>x.id===id);
+    if(!p) return "";
+
     total += p.price * cart[id];
 
-    return `<div>${p.name} x${cart[id]}</div>`;
+    return `
+      <div class="cart-item">
+        <span>${p.name}</span>
+        <strong>x${cart[id]}</strong>
+      </div>
+    `;
   }).join("");
 
   totalEl.textContent = "Total: $" + total;
@@ -77,7 +96,7 @@ function renderCart(){
   }
 }
 
-/* SHOP */
+/* ================= SHOP ================= */
 
 function initShop(){
   render(PRODUCTS);
@@ -85,6 +104,9 @@ function initShop(){
   document.querySelectorAll(".filter").forEach(btn=>{
     btn.onclick = ()=>{
       const cat = btn.dataset.category;
+
+      document.querySelectorAll(".filter").forEach(b=>b.classList.remove("active"));
+      btn.classList.add("active");
 
       render(cat==="all"
         ? PRODUCTS
@@ -105,19 +127,31 @@ function render(list){
 
   list.forEach(p=>{
     const div = document.createElement("div");
+    div.className = "product-card";
 
     div.innerHTML = `
+      ${p.top ? '<div class="badge">🔥 Top Pick</div>' : ''}
+
       <h3>${p.name}</h3>
+
       <p>${p.description}</p>
 
-      ${p.onSale
-        ? `<span class="old">$${p.oldPrice}</span> <strong>$${p.price}</strong>`
-        : `<strong>$${p.price}</strong>`}
+      <div class="rating">⭐⭐⭐⭐⭐</div>
 
-      <br><br>
+      <div class="price">
+        ${p.onSale
+          ? `<span class="old">$${p.oldPrice}</span> <strong>$${p.price}</strong>`
+          : `<strong>$${p.price}</strong>`}
+      </div>
 
-      <button onclick="openProduct('${p.id}')">View</button>
-      <button onclick="addToCart('${p.id}')">Add to Cart</button>
+      <p style="color:var(--muted); font-size:13px;">
+        Popular with beginner anglers
+      </p>
+
+      <div class="card-actions">
+        <button class="btn primary" onclick="openProduct('${p.id}')">View</button>
+        <button class="btn primary" onclick="addToCart('${p.id}')">Add</button>
+      </div>
     `;
 
     grid.appendChild(div);
@@ -132,39 +166,55 @@ function openProduct(id){
 
   document.getElementById("product-content").innerHTML = `
     <h2>${p.name}</h2>
-    <p>${p.description}</p>
+
+    <p><strong>Best for:</strong> ${p.bestFor || "All anglers"}</p>
+    <p><strong>Why:</strong> ${p.why || p.description}</p>
+    <p><strong>Perfect if:</strong> ${p.perfectFor || "You want reliable gear"}</p>
+
+    <br>
+
     <strong>$${p.price}</strong>
+
     <br><br>
-    <button onclick="addToCart('${p.id}')">Add to Cart</button>
+
+    <button class="btn primary" onclick="addToCart('${p.id}')">Add to Cart</button>
   `;
 
   openModal("product-modal");
 }
 
-/* ORDER FORM */
+/* ================= ORDER FORM ================= */
 
 function initOrderForm(){
-  document.getElementById("order-form").onsubmit = e=>{
+  const form = document.getElementById("order-form");
+
+  form.onsubmit = e=>{
     e.preventDefault();
 
-    const subject = encodeURIComponent("Order enquiry");
+    const name = document.getElementById("cust-name").value;
+    const email = document.getElementById("cust-email").value;
+    const loc = document.getElementById("location").value;
+    const product = document.getElementById("product-select").value;
+    const msg = document.getElementById("message").value;
+
+    const subject = encodeURIComponent("Order enquiry - " + product);
 
     const body = encodeURIComponent(
-`Name: ${cust-name.value}
-Email: ${cust-email.value}
-Location: ${location.value}
+`Name: ${name}
+Email: ${email}
+Location: ${loc}
 
-Product: ${document.getElementById("product-select").value}
+Product: ${product}
 
 Message:
-${message.value}`
+${msg}`
     );
 
     window.location.href = `mailto:your@email.com?subject=${subject}&body=${body}`;
   };
 }
 
-/* REVIEWS */
+/* ================= REVIEWS ================= */
 
 function initReviews(){
   renderReviews();
@@ -194,16 +244,16 @@ function renderReviews(){
   const all = [...PERMANENT_REVIEWS, ...reviews];
 
   list.innerHTML = all.map(r=>`
-    <div>
+    <div class="product-card">
       <strong>${r.name}</strong>
-      <p>${"⭐".repeat(r.rating)}</p>
-      <p>${r.title}</p>
+      <div class="rating">${"⭐".repeat(r.rating)}</div>
+      <h4>${r.title}</h4>
       <p>${r.body}</p>
     </div>
   `).join("");
 }
 
-/* MODAL */
+/* ================= MODAL ================= */
 
 function initModal(){
   document.getElementById("close-product").onclick = () => closeModal("product-modal");
