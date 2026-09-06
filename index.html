@@ -6,6 +6,12 @@
 <title>FOOT Fishing & Co.</title>
 
 <link rel="stylesheet" href="styles.css">
+
+<!-- ✅ Manifest (app feel) -->
+<link rel="manifest" href="manifest.json">
+
+<!-- ✅ Favicon -->
+<link rel="icon" type="image/png" href="logo.png">
 </head>
 
 <body>
@@ -19,14 +25,17 @@
 
 <div class="brand">FOOT™ Fishing & Co.</div>
 
-<nav>
+<nav class="nav">
 <a href="#shop">Shop</a>
 <a href="#reviews">Reviews</a>
 <a href="#contact">Order</a>
 <a href="#about">About</a>
+<a href="policies.html">Policies</a> <!-- ✅ NEW -->
 </nav>
 
-<button id="cart-button">🛒 <span id="cart-count">0</span></button>
+<button id="cart-button" class="cart-button">
+🛒 <span id="cart-count">0</span>
+</button>
 
 </div>
 </header>
@@ -83,6 +92,11 @@ tested, reliable, and actually worth your money.
 Built by anglers. For anglers.
 </p>
 
+<!-- ✅ Link to full page -->
+<p style="margin-top:10px;">
+<a href="about.html" class="btn">Read more</a>
+</p>
+
 </section>
 
 <!-- ORDER -->
@@ -121,7 +135,7 @@ Not ready for full checkout yet — send us an enquiry and we’ll help you get 
 
 <h2>Your Cart</h2>
 
-<div id="shipping-progress"></div>
+<div id="shipping-progress" class="shipping-progress"></div>
 <div id="cart-items"></div>
 <h3 id="cart-total">Total: $0</h3>
 
@@ -152,28 +166,4 @@ Not ready for full checkout yet — send us an enquiry and we’ll help you get 
 </select>
 
 <input id="review-title" placeholder="Title" required>
-<textarea id="review-body"></textarea>
-
-<button type="submit" class="btn primary">Post</button>
-</form>
-</div>
-</div>
-
-<!-- FOOTER (TRUST BOOST) -->
-<footer class="site-footer">
-<p>© 2026 FOOT Fishing & Co.</p>
-
-<p style="margin-top:8px;">
-Contact: your@email.com
-</p>
-
-<p style="font-size:13px; color:var(--muted);">
-Built by anglers. No fake hype.
-</p>
-</footer>
-
-<script src="products.js"></script>
-<script src="app.js"></script>
-
-</body>
-</html>
+<textarea id="review-body"></
