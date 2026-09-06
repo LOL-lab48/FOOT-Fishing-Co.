@@ -25,26 +25,37 @@ function initCart() {
 
 function addToCart(id) {
   cart[id] = (cart[id] || 0) + 1;
-  localStorage.setItem("foot_cart", JSON.stringify(cart));
-  updateCart();
-  renderCart();
+  saveCart();
+}
+
+function increaseQty(id) {
+  cart[id]++;
+  saveCart();
+}
+
+function decreaseQty(id) {
+  cart[id]--;
+  if (cart[id] <= 0) delete cart[id];
+  saveCart();
 }
 
 function removeFromCart(id) {
   delete cart[id];
+  saveCart();
+}
+
+function saveCart() {
   localStorage.setItem("foot_cart", JSON.stringify(cart));
   updateCart();
   renderCart();
 }
 
-/* 🔥 FIXED CART COUNT BUG HERE */
 function updateCart() {
   const el = document.getElementById("cart-count");
 
-  let total = Object.values(cart).reduce((a, b) => a + b, 0);
+  let total = Object.values(cart).reduce((a,b)=>a+b,0);
 
-  // FIX: remove ghost values
-  if (!total || total < 0) {
+  if (!total) {
     cart = {};
     localStorage.setItem("foot_cart", "{}");
     total = 0;
@@ -57,8 +68,6 @@ function renderCart() {
   const box = document.getElementById("cart-items");
   const totalEl = document.getElementById("cart-total");
 
-  if (!box) return;
-
   let total = 0;
 
   box.innerHTML = Object.keys(cart).map(id => {
@@ -69,9 +78,18 @@ function renderCart() {
 
     return `
       <div class="cart-item">
-        <strong>${p.name}</strong>
-        <span>${cart[id]} x $${p.price}</span>
-        <button class="btn" onclick="removeFromCart('${id}')">Remove</button>
+        <div>
+          <strong>${p.name}</strong>
+          <p>$${p.price}</p>
+        </div>
+
+        <div class="qty-controls">
+          <button onclick="decreaseQty('${id}')">−</button>
+          <span>${cart[id]}</span>
+          <button onclick="increaseQty('${id}')">+</button>
+        </div>
+
+        <button onclick="removeFromCart('${id}')">✕</button>
       </div>
     `;
   }).join("");
@@ -88,13 +106,12 @@ function initShop() {
     btn.onclick = () => {
       const cat = btn.dataset.category;
 
-      document.querySelectorAll(".filter").forEach(b => b.classList.remove("active"));
+      document.querySelectorAll(".filter").forEach(b=>b.classList.remove("active"));
       btn.classList.add("active");
 
-      render(
-        cat === "all"
-          ? PRODUCTS
-          : PRODUCTS.filter(p => p.category === cat)
+      render(cat === "all"
+        ? PRODUCTS
+        : PRODUCTS.filter(p => p.category === cat)
       );
     };
   });
@@ -111,11 +128,19 @@ function render(list) {
     const div = document.createElement("div");
     div.className = "product-card";
 
+    const rating = "⭐".repeat(Math.floor(Math.random()*2)+4); // fake rating 4–5 stars
+
     div.innerHTML = `
       <h3>${p.name}</h3>
       <p>${p.description}</p>
+
+      <p class="rating">${rating}</p>
+
+      ${p.price < 150 ? '<span class="badge">🔥 Top Pick</span>' : ''}
+
       <strong>$${p.price}</strong>
       <br><br>
+
       <button class="btn primary" onclick="openProduct('${p.id}')">View</button>
     `;
 
@@ -137,9 +162,13 @@ function openProduct(id) {
   box.innerHTML = `
     <h2>${p.name}</h2>
     <p>${p.description}</p>
+    <p class="rating">⭐⭐⭐⭐⭐</p>
     <strong>$${p.price}</strong>
     <br><br>
-    <button class="btn primary" onclick="addToCart('${p.id}')">Add to cart</button>
+
+    <button class="btn primary" onclick="addToCart('${p.id}')">
+      Add to cart
+    </button>
   `;
 
   openModal("product-modal");
@@ -162,11 +191,11 @@ function initReviews() {
     e.preventDefault();
 
     reviews.push({
-      product: document.getElementById("review-product").value,
-      name: document.getElementById("review-name").value,
-      rating: document.getElementById("review-rating").value,
-      title: document.getElementById("review-title").value,
-      body: document.getElementById("review-body").value
+      product: review-product.value,
+      name: review-name.value,
+      rating: review-rating.value,
+      title: review-title.value,
+      body: review-body.value
     });
 
     localStorage.setItem("foot_reviews", JSON.stringify(reviews));
