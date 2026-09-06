@@ -1,3 +1,4 @@
+
 const FREE_SHIPPING = 150;
 
 let cart = JSON.parse(localStorage.getItem("foot_cart") || "{}");
@@ -16,8 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
   initShop();
   initCart();
   initReviews();
-  initModal();
   initOrderForm();
+  initModalButtons();
 });
 
 /* ================= CART ================= */
@@ -29,10 +30,6 @@ function initCart(){
     renderCart();
     openModal("cart-modal");
   };
-
-  document.getElementById("close-cart").onclick = () => {
-    closeModal("cart-modal");
-  };
 }
 
 function addToCart(id){
@@ -41,13 +38,15 @@ function addToCart(id){
 }
 
 function increaseQty(id){
-  cart[id]++;
+  cart[id] = (cart[id] || 0) + 1;
   saveCart();
 }
 
 function decreaseQty(id){
-  cart[id]--;
+  cart[id] = (cart[id] || 0) - 1;
+
   if(cart[id] <= 0) delete cart[id];
+
   saveCart();
 }
 
@@ -63,9 +62,11 @@ function saveCart(){
 }
 
 function updateCart(){
-  const total = Object.values(cart).reduce((a,b)=>a+b,0);
-  document.getElementById("cart-count").textContent = total;
+  const totalItems = Object.values(cart).reduce((a,b)=>a+b,0);
+  document.getElementById("cart-count").textContent = totalItems;
 }
+
+/* ================= CART RENDER ================= */
 
 function renderCart(){
   const box = document.getElementById("cart-items");
@@ -74,44 +75,54 @@ function renderCart(){
 
   let total = 0;
 
-  box.innerHTML = Object.keys(cart).map(id=>{
-    const p = PRODUCTS.find(x=>x.id===id);
-    if(!p) return "";
+  box.innerHTML = "";
+
+  Object.keys(cart).forEach(id => {
+    const p = PRODUCTS.find(x => x.id === id);
+    if(!p) return;
 
     total += p.price * cart[id];
 
-    return `
-      <div class="cart-item">
-        <div>
-          <strong>${p.name}</strong>
-          <p>$${p.price}</p>
-        </div>
+    const item = document.createElement("div");
+    item.className = "cart-item";
 
-        <div class="qty-controls">
-          <button onclick="decreaseQty('${id}')">−</button>
-          <span>${cart[id]}</span>
-          <button onclick="increaseQty('${id}')">+</button>
-        </div>
-
-        <button onclick="removeFromCart('${id}')">✕</button>
+    item.innerHTML = `
+      <div>
+        <strong>${p.name}</strong>
+        <p>$${p.price}</p>
       </div>
+
+      <div class="qty-controls">
+        <button onclick="decreaseQty('${id}')">−</button>
+        <span>${cart[id]}</span>
+        <button onclick="increaseQty('${id}')">+</button>
+      </div>
+
+      <button onclick="removeFromCart('${id}')">✕</button>
     `;
-  }).join("");
 
-  totalEl.textContent = "Total: $" + total;
+    box.appendChild(item);
+  });
 
+  totalEl.textContent = `Total: $${total}`;
+
+  // shipping logic FIXED
   if(total === 0){
-    progress.innerHTML = "Start your order to unlock FREE shipping over $150 🚚";
-  } else if(total < 100){
-    progress.innerHTML = `Add $${150-total} more to unlock FREE shipping!`;
-  } else if(total < 150){
-    progress.innerHTML = `You're so close! Add $${150-total} more for FREE shipping!`;
+    progress.textContent = "Start your order to unlock FREE shipping 🚚";
+  } else if(total < FREE_SHIPPING){
+    progress.textContent = `Add $${(FREE_SHIPPING - total).toFixed(2)} more for FREE shipping`;
   } else {
-    progress.innerHTML = "✅ FREE SHIPPING unlocked!";
+    progress.textContent = "✅ FREE SHIPPING unlocked!";
   }
 
-  // buttons
-  box.innerHTML += `
+  // prevent duplicate buttons (FIXED BUG)
+  const existingButtons = box.querySelector(".cart-actions");
+  if(existingButtons) existingButtons.remove();
+
+  const actions = document.createElement("div");
+  actions.className = "cart-actions";
+
+  actions.innerHTML = `
     <button class="btn primary" style="width:100%; margin-top:10px;" onclick="openEnquiry()">
       Send Enquiry
     </button>
@@ -120,12 +131,19 @@ function renderCart(){
       Checkout
     </button>
   `;
+
+  box.appendChild(actions);
 }
 
 /* ================= CHECKOUT ================= */
 
 function checkout(){
-  alert("Sorry, we're not ready for payments yet.\nPlease fill out the enquiry form and we'll get back to you shortly.");
+  if(Object.keys(cart).length === 0){
+    alert("Your cart is empty.");
+    return;
+  }
+
+  alert("Payments aren't enabled yet — please send an enquiry instead.");
 
   closeModal("cart-modal");
   openModal("order-modal");
@@ -141,16 +159,16 @@ function openEnquiry(){
 function initShop(){
   render(PRODUCTS);
 
-  document.querySelectorAll(".filter").forEach(btn=>{
-    btn.onclick = ()=>{
+  document.querySelectorAll(".filter").forEach(btn => {
+    btn.onclick = () => {
       const cat = btn.dataset.category;
 
-      document.querySelectorAll(".filter").forEach(b=>b.classList.remove("active"));
+      document.querySelectorAll(".filter").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
 
-      render(cat==="all"
+      render(cat === "all"
         ? PRODUCTS
-        : PRODUCTS.filter(p=>p.category===cat)
+        : PRODUCTS.filter(p => p.category === cat)
       );
     };
   });
@@ -158,14 +176,14 @@ function initShop(){
 
 function render(list){
   const grid = document.getElementById("product-grid");
-  const select = document.getElementById("product-select");
+  const select = document.getElementById("order-product-select");
   const reviewSelect = document.getElementById("review-product");
 
   grid.innerHTML = "";
   select.innerHTML = "";
   reviewSelect.innerHTML = "";
 
-  list.forEach(p=>{
+  list.forEach(p => {
     const div = document.createElement("div");
     div.className = "product-card";
 
@@ -191,20 +209,23 @@ function render(list){
 
     grid.appendChild(div);
 
-    select.innerHTML += `<option>${p.name}</option>`;
-    reviewSelect.innerHTML += `<option>${p.name}</option>`;
+    select.innerHTML += `<option value="${p.id}">${p.name}</option>`;
+    reviewSelect.innerHTML += `<option value="${p.id}">${p.name}</option>`;
   });
 }
 
+/* ================= PRODUCT ================= */
+
 function openProduct(id){
-  const p = PRODUCTS.find(x=>x.id===id);
+  const p = PRODUCTS.find(x => x.id === id);
+  if(!p) return;
 
   document.getElementById("product-content").innerHTML = `
     <h2>${p.name}</h2>
 
     <p><strong>Best for:</strong> ${p.bestFor || "All anglers"}</p>
     <p><strong>Why:</strong> ${p.why || p.description}</p>
-    <p><strong>Perfect if:</strong> ${p.perfectFor || "You want reliable gear"}</p>
+    <p><strong>Perfect if:</strong> ${p.perfectFor || "Reliable gear"}</p>
 
     <br>
 
@@ -212,7 +233,9 @@ function openProduct(id){
 
     <br><br>
 
-    <button class="btn primary" onclick="addToCart('${p.id}')">Add to Cart</button>
+    <button class="btn primary" onclick="addToCart('${p.id}')">
+      Add to Cart
+    </button>
   `;
 
   openModal("product-modal");
@@ -223,29 +246,30 @@ function openProduct(id){
 function initOrderForm(){
   const form = document.getElementById("order-form");
 
-  form.onsubmit = e=>{
+  form.onsubmit = (e) => {
     e.preventDefault();
 
     const name = document.getElementById("cust-name").value;
     const email = document.getElementById("cust-email").value;
     const loc = document.getElementById("location").value;
-    const product = document.getElementById("product-select").value;
+    const product = document.getElementById("order-product-select").value;
     const msg = document.getElementById("message").value;
 
-    const subject = encodeURIComponent("Order enquiry - " + product);
+    const subject = encodeURIComponent("FOOT Enquiry - " + product);
 
     const body = encodeURIComponent(
 `Name: ${name}
 Email: ${email}
 Location: ${loc}
 
-Product: ${product}
+Product ID: ${product}
 
 Message:
 ${msg}`
     );
 
-    window.location.href = `mailto:Gabe.karekinian@gmail.com?subject=${subject}&body=${body}`;
+    window.location.href =
+      `mailto:Gabe.karekinian@gmail.com?subject=${subject}&body=${body}`;
   };
 }
 
@@ -255,16 +279,15 @@ function initReviews(){
   renderReviews();
 
   document.getElementById("open-review").onclick = () => openModal("review-modal");
-  document.getElementById("close-review").onclick = () => closeModal("review-modal");
 
-  document.getElementById("review-form").onsubmit = e=>{
+  document.getElementById("review-form").onsubmit = (e) => {
     e.preventDefault();
 
     reviews.push({
       name: document.getElementById("review-name").value || "Anonymous",
       title: document.getElementById("review-title").value,
       body: document.getElementById("review-body").value,
-      rating: document.getElementById("review-rating").value
+      rating: Number(document.getElementById("review-rating").value)
     });
 
     localStorage.setItem("foot_reviews", JSON.stringify(reviews));
@@ -278,7 +301,7 @@ function renderReviews(){
 
   const all = [...PERMANENT_REVIEWS, ...reviews];
 
-  list.innerHTML = all.map(r=>`
+  list.innerHTML = all.map(r => `
     <div class="product-card">
       <strong>${r.name}</strong>
       <div class="rating">${"⭐".repeat(r.rating)}</div>
@@ -290,8 +313,11 @@ function renderReviews(){
 
 /* ================= MODAL ================= */
 
-function initModal(){
+function initModalButtons(){
+  document.getElementById("close-cart").onclick = () => closeModal("cart-modal");
   document.getElementById("close-product").onclick = () => closeModal("product-modal");
+  document.getElementById("close-review").onclick = () => closeModal("review-modal");
+  document.getElementById("close-order").onclick = () => closeModal("order-modal");
 }
 
 function openModal(id){
