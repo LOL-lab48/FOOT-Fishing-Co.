@@ -97,7 +97,8 @@ function renderCart(){
 
   if (totalEl) totalEl.textContent = "Total: $" + total;
 
-  /* 🔥 SMART SHIPPING SYSTEM (YOUR RULES) */
+  /* 🔥 SMART SHIPPING SYSTEM */
+
   if(progress){
 
     if(total === 0){
@@ -131,7 +132,6 @@ function renderCart(){
         </div>
       `;
     }
-
   }
 }
 
@@ -221,7 +221,11 @@ function initReviews(){
   form.onsubmit = e=>{
     e.preventDefault();
 
+    const nameInput = document.getElementById("review-name").value.trim();
+    const name = nameInput === "" ? "Anonymous" : nameInput;
+
     reviews.push({
+      name: name,
       title: document.getElementById("review-title").value,
       body: document.getElementById("review-body").value,
       rating: document.getElementById("review-rating").value
@@ -240,13 +244,27 @@ function initReviews(){
 function renderReviews(){
   const list = document.getElementById("review-list");
 
-  list.innerHTML = reviews.map(r=>`
-    <div class="product-card">
-      <strong>${r.title}</strong>
-      <p>${"⭐".repeat(r.rating)}</p>
+  list.innerHTML = reviews.map((r, index)=>`
+    <div class="product-card review-card">
+
+      <div class="review-header">
+        <strong>${r.name || "Anonymous"}</strong>
+        <span class="stars">${"⭐".repeat(r.rating)}</span>
+      </div>
+
+      <h4>${r.title}</h4>
       <p>${r.body}</p>
+
+      <button class="report-btn" onclick="reportReview(${index})">Report</button>
+
     </div>
   `).join("");
+}
+
+function reportReview(index){
+  reviews.splice(index, 1);
+  localStorage.setItem("foot_reviews", JSON.stringify(reviews));
+  renderReviews();
 }
 
 /* ================= MODALS ================= */
