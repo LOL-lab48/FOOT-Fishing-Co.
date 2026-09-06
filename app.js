@@ -37,11 +37,20 @@ function removeFromCart(id) {
   renderCart();
 }
 
+/* 🔥 FIXED CART COUNT BUG HERE */
 function updateCart() {
   const el = document.getElementById("cart-count");
-  if (el) {
-    el.textContent = Object.values(cart).reduce((a,b)=>a+b,0);
+
+  let total = Object.values(cart).reduce((a, b) => a + b, 0);
+
+  // FIX: remove ghost values
+  if (!total || total < 0) {
+    cart = {};
+    localStorage.setItem("foot_cart", "{}");
+    total = 0;
   }
+
+  if (el) el.textContent = total;
 }
 
 function renderCart() {
@@ -62,7 +71,7 @@ function renderCart() {
       <div class="cart-item">
         <strong>${p.name}</strong>
         <span>${cart[id]} x $${p.price}</span>
-        <button onclick="removeFromCart('${id}')">Remove</button>
+        <button class="btn" onclick="removeFromCart('${id}')">Remove</button>
       </div>
     `;
   }).join("");
@@ -79,12 +88,13 @@ function initShop() {
     btn.onclick = () => {
       const cat = btn.dataset.category;
 
-      document.querySelectorAll(".filter").forEach(b=>b.classList.remove("active"));
+      document.querySelectorAll(".filter").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
 
-      render(cat === "all"
-        ? PRODUCTS
-        : PRODUCTS.filter(p => p.category === cat)
+      render(
+        cat === "all"
+          ? PRODUCTS
+          : PRODUCTS.filter(p => p.category === cat)
       );
     };
   });
