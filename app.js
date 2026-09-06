@@ -1,7 +1,7 @@
+const FREE_SHIPPING = 150;
+
 let cart = JSON.parse(localStorage.getItem("foot_cart") || "{}");
 let reviews = JSON.parse(localStorage.getItem("foot_reviews") || "[]");
-
-const FREE_SHIPPING = 150;
 
 document.addEventListener("DOMContentLoaded", () => {
   initShop();
@@ -10,56 +10,72 @@ document.addEventListener("DOMContentLoaded", () => {
   initModal();
 });
 
-/* CART */
+/* ================= CART ================= */
 
 function initCart() {
   updateCart();
 
-  cart-button.onclick = () => {
+  document.getElementById("cart-button").onclick = () => {
     renderCart();
     openModal("cart-modal");
   };
 
-  close-cart.onclick = () => closeModal("cart-modal");
+  document.getElementById("close-cart").onclick = () => {
+    closeModal("cart-modal");
+  };
 }
 
 function addToCart(id){
-  cart[id]=(cart[id]||0)+1;
+  cart[id] = (cart[id] || 0) + 1;
   saveCart();
 }
 
-function increaseQty(id){cart[id]++;saveCart();}
-function decreaseQty(id){
-  cart[id]--;
-  if(cart[id]<=0) delete cart[id];
+function increaseQty(id){
+  cart[id]++;
   saveCart();
 }
+
+function decreaseQty(id){
+  cart[id]--;
+  if(cart[id] <= 0) delete cart[id];
+  saveCart();
+}
+
 function removeFromCart(id){
   delete cart[id];
   saveCart();
 }
 
 function saveCart(){
-  localStorage.setItem("foot_cart",JSON.stringify(cart));
+  localStorage.setItem("foot_cart", JSON.stringify(cart));
   updateCart();
   renderCart();
 }
 
 function updateCart(){
+  const el = document.getElementById("cart-count");
   let total = Object.values(cart).reduce((a,b)=>a+b,0);
-  if(!total){cart={};localStorage.setItem("foot_cart","{}");}
-  cart-count.textContent = total;
+
+  if(!total){
+    cart = {};
+    localStorage.setItem("foot_cart","{}");
+    total = 0;
+  }
+
+  if(el) el.textContent = total;
 }
 
 function renderCart(){
-  let box = document.getElementById("cart-items");
-  let totalEl = document.getElementById("cart-total");
-  let progress = document.getElementById("shipping-progress");
+  const box = document.getElementById("cart-items");
+  const totalEl = document.getElementById("cart-total");
+  const progress = document.getElementById("shipping-progress");
 
   let total = 0;
 
   box.innerHTML = Object.keys(cart).map(id=>{
-    let p = PRODUCTS.find(x=>x.id===id);
+    const p = PRODUCTS.find(x=>x.id===id);
+    if(!p) return "";
+
     total += p.price * cart[id];
 
     return `
@@ -81,16 +97,16 @@ function renderCart(){
 
   totalEl.textContent = "Total: $" + total;
 
-  /* 🔥 SHIPPING LOGIC */
+  /* 🔥 SHIPPING SYSTEM */
   if(total >= FREE_SHIPPING){
-    progress.className="shipping-progress shipping-success";
-    progress.innerHTML="✅ FREE SHIPPING unlocked!";
-  }else{
-    let remain = FREE_SHIPPING - total;
-    let percent = Math.min((total/FREE_SHIPPING)*100,100);
+    progress.className = "shipping-progress shipping-success";
+    progress.innerHTML = "✅ FREE SHIPPING unlocked!";
+  } else {
+    const remain = FREE_SHIPPING - total;
+    const percent = Math.min((total/FREE_SHIPPING)*100,100);
 
-    progress.className="shipping-progress";
-    progress.innerHTML=`
+    progress.className = "shipping-progress";
+    progress.innerHTML = `
       You're $${remain} away from FREE shipping!<br>
       Add $${remain} bait to unlock it!
 
@@ -101,42 +117,45 @@ function renderCart(){
   }
 }
 
-/* SHOP */
+/* ================= SHOP ================= */
 
 function initShop(){
   render(PRODUCTS);
 
   document.querySelectorAll(".filter").forEach(btn=>{
-    btn.onclick=()=>{
-      let cat=btn.dataset.category;
+    btn.onclick = () => {
+      const cat = btn.dataset.category;
 
       document.querySelectorAll(".filter").forEach(b=>b.classList.remove("active"));
       btn.classList.add("active");
 
-      render(cat==="all"?PRODUCTS:PRODUCTS.filter(p=>p.category===cat));
+      render(cat==="all"
+        ? PRODUCTS
+        : PRODUCTS.filter(p=>p.category===cat)
+      );
     };
   });
 }
 
 function render(list){
-  let grid=document.getElementById("product-grid");
-  let select=document.getElementById("review-product");
+  const grid = document.getElementById("product-grid");
+  const select = document.getElementById("review-product");
 
-  grid.innerHTML="";
-  if(select) select.innerHTML="";
+  grid.innerHTML = "";
+  if(select) select.innerHTML = "";
 
   list.forEach(p=>{
-    let div=document.createElement("div");
-    div.className="product-card";
+    const div = document.createElement("div");
+    div.className = "product-card";
 
-    div.innerHTML=`
+    div.innerHTML = `
       <h3>${p.name}</h3>
       <p>${p.description}</p>
       <small>${p.type} • ${p.category}</small>
 
       <p class="rating">⭐⭐⭐⭐⭐</p>
 
-      ${p.top?'<span class="badge">🔥 Top Pick</span>':''}
+      ${p.top ? '<span class="badge">🔥 Top Pick</span>' : ''}
 
       <strong>$${p.price}</strong><br><br>
 
@@ -146,18 +165,19 @@ function render(list){
     grid.appendChild(div);
 
     if(select){
-      let opt=document.createElement("option");
-      opt.value=p.id;
-      opt.textContent=p.name;
+      const opt = document.createElement("option");
+      opt.value = p.id;
+      opt.textContent = p.name;
       select.appendChild(opt);
     }
   });
 }
 
 function openProduct(id){
-  let p=PRODUCTS.find(x=>x.id===id);
+  const p = PRODUCTS.find(x=>x.id===id);
+  const box = document.getElementById("product-content");
 
-  product-content.innerHTML=`
+  box.innerHTML = `
     <h2>${p.name}</h2>
     <p>${p.description}</p>
     <strong>$${p.price}</strong><br><br>
@@ -167,23 +187,31 @@ function openProduct(id){
   openModal("product-modal");
 }
 
-/* REVIEWS */
+/* ================= REVIEWS ================= */
 
 function initReviews(){
-  open-review.onclick=()=>openModal("review-modal");
-  close-review.onclick=()=>closeModal("review-modal");
+  const form = document.getElementById("review-form");
 
-  review-form.onsubmit=e=>{
+  document.getElementById("open-review").onclick = () => {
+    openModal("review-modal");
+  };
+
+  document.getElementById("close-review").onclick = () => {
+    closeModal("review-modal");
+  };
+
+  form.onsubmit = e=>{
     e.preventDefault();
 
     reviews.push({
-      title:review-title.value,
-      body:review-body.value,
-      rating:review-rating.value
+      title: review-title.value,
+      body: review-body.value,
+      rating: review-rating.value
     });
 
-    localStorage.setItem("foot_reviews",JSON.stringify(reviews));
-    review-form.reset();
+    localStorage.setItem("foot_reviews", JSON.stringify(reviews));
+
+    form.reset();
     closeModal("review-modal");
     renderReviews();
   };
@@ -192,7 +220,9 @@ function initReviews(){
 }
 
 function renderReviews(){
-  review-list.innerHTML=reviews.map(r=>`
+  const list = document.getElementById("review-list");
+
+  list.innerHTML = reviews.map(r=>`
     <div class="product-card">
       <strong>${r.title}</strong>
       <p>${"⭐".repeat(r.rating)}</p>
@@ -201,10 +231,12 @@ function renderReviews(){
   `).join("");
 }
 
-/* MODALS */
+/* ================= MODALS ================= */
 
 function initModal(){
-  close-product.onclick=()=>closeModal("product-modal");
+  document.getElementById("close-product").onclick = () => {
+    closeModal("product-modal");
+  };
 }
 
 function openModal(id){
