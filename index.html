@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>FOOT Fishing & Co.</title>
 
 <link rel="stylesheet" href="styles.css">
@@ -12,185 +13,481 @@
 
 <body>
 
+<!-- =========================
+     SHIPPING BAR
+     ========================= -->
+
 <div class="shipping-bar">
-🚚 Free shipping over $150
+  🚚 Free shipping over $150
 </div>
+
+
+<!-- =========================
+     HEADER
+     ========================= -->
 
 <header class="site-header">
-<div class="container nav-wrap">
 
-<div class="brand">FOOT™ Fishing & Co.</div>
+  <div class="container nav-wrap">
 
-<nav class="nav">
-<a href="#shop">Shop</a>
-<a href="#reviews">Reviews</a>
-<a href="#about">About</a>
-<a href="policies.html">Policies</a>
-</nav>
+    <div class="brand">
+      FOOT™ Fishing & Co.
+    </div>
 
-<button id="cart-button" class="cart-button">
-🛒 <span id="cart-count">0</span>
-</button>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="#shop">Shop</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#about">About</a>
+      <a href="policies.html">Policies</a>
+    </nav>
 
-</div>
+    <button
+      id="cart-button"
+      class="cart-button"
+      type="button"
+      aria-label="Open shopping cart"
+    >
+      🛒 <span id="cart-count">0</span>
+    </button>
+
+  </div>
+
 </header>
 
-<!-- HERO -->
+
+<!-- =========================
+     HERO
+     ========================= -->
+
 <section class="hero">
-<div class="container">
 
-<h1>Built by anglers. Tested by real people.</h1>
-<p>We help you find the perfect rod — not just sell you one.</p>
+  <div class="container hero-wrap">
 
-<div class="hero-trust">
-<span>✔ Beginner friendly picks</span>
-<span>✔ Free shipping over $150</span>
-</div>
+    <!-- HERO TEXT -->
 
-<a href="#shop" class="btn primary">Shop rods</a>
+    <div class="hero-content">
 
-</div>
+      <h1>
+        Built by anglers.
+        <br>
+        Tested by real people.
+      </h1>
+
+      <p>
+        We help you find the perfect rod — not just sell you one.
+      </p>
+
+      <div class="hero-trust">
+
+        <span>
+          ✔ Beginner friendly picks
+        </span>
+
+        <span>
+          ✔ Free shipping over $150
+        </span>
+
+      </div>
+
+      <a href="#shop" class="btn primary">
+        Shop rods
+      </a>
+
+    </div>
+
+
+    <!-- HERO IMAGE -->
+
+    <div class="hero-image">
+
+      <img
+        src="images/fishing.jpg"
+        alt="Angler fishing outdoors"
+      >
+
+    </div>
+
+  </div>
+
 </section>
 
-<!-- SHOP -->
+
+<!-- =========================
+     SHOP
+     ========================= -->
+
 <section id="shop" class="container section">
 
-<h2>Shop</h2>
+  <h2>Shop</h2>
 
-<div class="filter-row">
-<button class="filter active" data-category="all">All</button>
-<button class="filter" data-category="Beginner">Beginners</button>
-<button class="filter" data-category="Teen">Teens</button>
-<button class="filter" data-category="Tackle">Bait & Tackle</button>
-</div>
+  <p>
+    Find the right gear for how you fish.
+  </p>
 
-<div id="product-grid" class="product-grid"></div>
+  <div class="filter-row">
+
+    <button
+      class="filter active"
+      data-category="all"
+      type="button"
+    >
+      All
+    </button>
+
+    <button
+      class="filter"
+      data-category="Beginner"
+      type="button"
+    >
+      Beginners
+    </button>
+
+    <button
+      class="filter"
+      data-category="Teen"
+      type="button"
+    >
+      Teens
+    </button>
+
+    <button
+      class="filter"
+      data-category="Tackle"
+      type="button"
+    >
+      Bait &amp; Tackle
+    </button>
+
+  </div>
+
+  <div id="product-grid" class="product-grid"></div>
 
 </section>
 
-<!-- ABOUT -->
+
+<!-- =========================
+     ABOUT
+     ========================= -->
+
 <section id="about" class="container section">
-<h2>About FOOT™</h2>
 
-<p>
-FOOT™ (Fishing Ocean Outdoor Tackle) started with one goal:
-help anglers choose the right gear without confusion.
-</p>
+  <h2>About FOOT™</h2>
 
-<p>
-We only show tested, reliable gear that’s actually worth your money.
-</p>
+  <p>
+    FOOT™ (Fishing Ocean Outdoor Tackle) started with one goal:
+    help anglers choose the right gear without confusion.
+  </p>
 
-<p>Built by anglers. For anglers.</p>
+  <p>
+    We only show tested, reliable gear that's actually worth your money.
+  </p>
 
-<p style="margin-top:10px;">
-<a href="about.html" class="btn">Read more</a>
-</p>
+  <p>
+    Built by anglers. For anglers.
+  </p>
+
+  <p style="margin-top:10px;">
+    <a href="about.html" class="btn">
+      Read more
+    </a>
+  </p>
+
 </section>
 
-<!-- REVIEWS -->
+
+<!-- =========================
+     REVIEWS
+     ========================= -->
+
 <section id="reviews" class="container section">
-<h2>Reviews</h2>
 
-<button id="open-review" class="btn primary">Write Review</button>
-<div id="review-list"></div>
+  <h2>Reviews</h2>
+
+  <p>
+    See what anglers think about the gear we recommend.
+  </p>
+
+  <button
+    id="open-review"
+    class="btn primary"
+    type="button"
+  >
+    Write Review
+  </button>
+
+  <div id="review-list"></div>
+
 </section>
 
-<!-- CART MODAL -->
-<div class="modal hidden" id="cart-modal">
-<div class="modal-box">
 
-<button id="close-cart">Close</button>
+<!-- =========================
+     CART MODAL
+     ========================= -->
 
-<h2>Your Cart</h2>
+<div
+  class="modal hidden"
+  id="cart-modal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="cart-title"
+>
 
-<div id="shipping-progress"></div>
-<div id="cart-items"></div>
+  <div class="modal-box">
 
-<h3 id="cart-total">Total: $0</h3>
+    <button
+      id="close-cart"
+      type="button"
+      aria-label="Close shopping cart"
+    >
+      Close
+    </button>
 
-<button id="checkout-btn" class="btn primary">Enquire / Checkout</button>
+    <h2 id="cart-title">
+      Your Cart
+    </h2>
 
-</div>
-</div>
+    <div
+      id="shipping-progress"
+      class="shipping-progress"
+    ></div>
 
-<!-- PRODUCT MODAL -->
-<div class="modal hidden" id="product-modal">
-<div class="modal-box">
+    <div id="cart-items"></div>
 
-<button id="close-product">Close</button>
-<div id="product-content"></div>
+    <h3 id="cart-total">
+      Total: $0
+    </h3>
 
-</div>
-</div>
+    <button
+      id="checkout-btn"
+      class="btn primary"
+      type="button"
+    >
+      Enquire / Checkout
+    </button>
 
-<!-- REVIEW MODAL -->
-<div class="modal hidden" id="review-modal">
-<div class="modal-box">
-
-<button id="close-review">Close</button>
-
-<form id="review-form">
-
-<input id="review-name" placeholder="Name (optional)">
-
-<select id="review-product"></select>
-
-<select id="review-rating">
-<option value="5">5</option>
-<option value="4">4</option>
-<option value="3">3</option>
-</select>
-
-<input id="review-title" placeholder="Title" required>
-<textarea id="review-body" placeholder="Write your review..."></textarea>
-
-<button type="submit" class="btn primary">Post</button>
-
-</form>
+  </div>
 
 </div>
-</div>
 
-<!-- ORDER / ENQUIRY MODAL -->
-<div class="modal hidden" id="order-modal">
-<div class="modal-box">
 
-<button id="close-order">Close</button>
+<!-- =========================
+     PRODUCT MODAL
+     ========================= -->
 
-<h2>Order / Enquiry</h2>
+<div
+  class="modal hidden"
+  id="product-modal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="product-modal-title"
+>
 
-<p style="color:var(--muted); margin-bottom:10px;">
-We're not set up for payments yet — send an enquiry and we’ll help you out.
-</p>
+  <div class="modal-box">
 
-<p style="font-size:13px; color:var(--muted);">
-We usually respond within 24–48 hours.
-</p>
+    <button
+      id="close-product"
+      type="button"
+      aria-label="Close product details"
+    >
+      Close
+    </button>
 
-<form id="order-form">
+    <div id="product-content"></div>
 
-<input id="cust-name" placeholder="Your name" required>
-<input id="cust-email" placeholder="Your email" required>
-<input id="location" placeholder="Location" required>
-
-<select id="order-product-select"></select>
-
-<textarea id="message" placeholder="Extra details"></textarea>
-
-<button type="submit" class="btn primary">Send Enquiry</button>
-
-</form>
+  </div>
 
 </div>
+
+
+<!-- =========================
+     REVIEW MODAL
+     ========================= -->
+
+<div
+  class="modal hidden"
+  id="review-modal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="review-modal-title"
+>
+
+  <div class="modal-box">
+
+    <button
+      id="close-review"
+      type="button"
+      aria-label="Close review form"
+    >
+      Close
+    </button>
+
+    <h2 id="review-modal-title">
+      Write a Review
+    </h2>
+
+    <form id="review-form">
+
+      <input
+        id="review-name"
+        type="text"
+        placeholder="Name (optional)"
+        autocomplete="name"
+      >
+
+      <select
+        id="review-product"
+        required
+      ></select>
+
+      <select
+        id="review-rating"
+        required
+      >
+        <option value="5">5 Stars</option>
+        <option value="4">4 Stars</option>
+        <option value="3">3 Stars</option>
+      </select>
+
+      <input
+        id="review-title"
+        type="text"
+        placeholder="Review title"
+        required
+      >
+
+      <textarea
+        id="review-body"
+        placeholder="Write your review..."
+        rows="5"
+      ></textarea>
+
+      <button
+        type="submit"
+        class="btn primary"
+      >
+        Post Review
+      </button>
+
+    </form>
+
+  </div>
+
 </div>
 
-<!-- FOOTER -->
+
+<!-- =========================
+     ORDER / ENQUIRY MODAL
+     ========================= -->
+
+<div
+  class="modal hidden"
+  id="order-modal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="order-modal-title"
+>
+
+  <div class="modal-box">
+
+    <button
+      id="close-order"
+      type="button"
+      aria-label="Close enquiry form"
+    >
+      Close
+    </button>
+
+    <h2 id="order-modal-title">
+      Order / Enquiry
+    </h2>
+
+    <p style="color:var(--muted); margin-bottom:10px;">
+      We're not set up for payments yet — send an enquiry and
+      we'll help you out.
+    </p>
+
+    <p style="font-size:13px; color:var(--muted); margin-bottom:20px;">
+      We usually respond within 24–48 hours.
+    </p>
+
+    <form id="order-form">
+
+      <input
+        id="cust-name"
+        type="text"
+        placeholder="Your name"
+        autocomplete="name"
+        required
+      >
+
+      <input
+        id="cust-email"
+        type="email"
+        placeholder="Your email"
+        autocomplete="email"
+        required
+      >
+
+      <input
+        id="location"
+        type="text"
+        placeholder="Location"
+        autocomplete="address-level2"
+        required
+      >
+
+      <select
+        id="order-product-select"
+        required
+      ></select>
+
+      <textarea
+        id="message"
+        placeholder="Extra details"
+        rows="5"
+      ></textarea>
+
+      <button
+        type="submit"
+        class="btn primary"
+      >
+        Send Enquiry
+      </button>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     FOOTER
+     ========================= -->
+
 <footer class="site-footer">
-<p>© 2026 FOOT Fishing & Co.</p>
-<p>Contact: Gabe.karekinian@gmail.com</p>
-<p style="font-size:13px; color:var(--muted);">Built by anglers.</p>
+
+  <p>
+    © 2026 FOOT Fishing &amp; Co.
+  </p>
+
+  <p>
+    Contact:
+    <a href="mailto:Gabe.karekinian@gmail.com">
+      Gabe.karekinian@gmail.com
+    </a>
+  </p>
+
+  <p style="font-size:13px; color:var(--muted);">
+    Built by anglers.
+  </p>
+
 </footer>
+
+
+<!-- =========================
+     JAVASCRIPT
+     ========================= -->
 
 <script src="products.js"></script>
 <script src="app.js"></script>
