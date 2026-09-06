@@ -1,17 +1,95 @@
 let cart = JSON.parse(localStorage.getItem("foot_cart") || "{}");
 let reviews = JSON.parse(localStorage.getItem("foot_reviews") || "[]");
 
-// INIT
 document.addEventListener("DOMContentLoaded", () => {
-  render(PRODUCTS);
-  initFilters();
+  initShop();
   initCart();
   initReviews();
+  initModal();
 });
 
-// =======================
-// PRODUCTS
-// =======================
+/* ================= CART ================= */
+
+function initCart() {
+  updateCart();
+
+  document.getElementById("cart-button").onclick = () => {
+    renderCart();
+    openModal("cart-modal");
+  };
+
+  document.getElementById("close-cart").onclick = () => {
+    closeModal("cart-modal");
+  };
+}
+
+function addToCart(id) {
+  cart[id] = (cart[id] || 0) + 1;
+  localStorage.setItem("foot_cart", JSON.stringify(cart));
+  updateCart();
+  renderCart();
+}
+
+function removeFromCart(id) {
+  delete cart[id];
+  localStorage.setItem("foot_cart", JSON.stringify(cart));
+  updateCart();
+  renderCart();
+}
+
+function updateCart() {
+  const el = document.getElementById("cart-count");
+  if (el) {
+    el.textContent = Object.values(cart).reduce((a,b)=>a+b,0);
+  }
+}
+
+function renderCart() {
+  const box = document.getElementById("cart-items");
+  const totalEl = document.getElementById("cart-total");
+
+  if (!box) return;
+
+  let total = 0;
+
+  box.innerHTML = Object.keys(cart).map(id => {
+    const p = PRODUCTS.find(x => x.id === id);
+    if (!p) return "";
+
+    total += p.price * cart[id];
+
+    return `
+      <div class="cart-item">
+        <strong>${p.name}</strong>
+        <span>${cart[id]} x $${p.price}</span>
+        <button onclick="removeFromCart('${id}')">Remove</button>
+      </div>
+    `;
+  }).join("");
+
+  totalEl.textContent = "Total: $" + total;
+}
+
+/* ================= SHOP ================= */
+
+function initShop() {
+  render(PRODUCTS);
+
+  document.querySelectorAll(".filter").forEach(btn => {
+    btn.onclick = () => {
+      const cat = btn.dataset.category;
+
+      document.querySelectorAll(".filter").forEach(b=>b.classList.remove("active"));
+      btn.classList.add("active");
+
+      render(cat === "all"
+        ? PRODUCTS
+        : PRODUCTS.filter(p => p.category === cat)
+      );
+    };
+  });
+}
+
 function render(list) {
   const grid = document.getElementById("product-grid");
   const select = document.getElementById("review-product");
@@ -25,10 +103,10 @@ function render(list) {
 
     div.innerHTML = `
       <h3>${p.name}</h3>
-      <p class="category">${p.category}</p>
       <p>${p.description}</p>
       <strong>$${p.price}</strong>
-      <button class="btn primary view-btn" data-id="${p.id}">View</button>
+      <br><br>
+      <button class="btn primary" onclick="openProduct('${p.id}')">View</button>
     `;
 
     grid.appendChild(div);
@@ -40,148 +118,52 @@ function render(list) {
       select.appendChild(opt);
     }
   });
-
-  // 🔥 FIX: attach click AFTER rendering
-  document.querySelectorAll(".view-btn").forEach(btn => {
-    btn.onclick = () => openProduct(btn.dataset.id);
-  });
 }
 
-// =======================
-// FILTERS
-// =======================
-function initFilters() {
-  document.querySelectorAll(".filter").forEach(btn => {
-    btn.onclick = () => {
-      document.querySelectorAll(".filter").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-
-      const cat = btn.dataset.category;
-      render(cat === "all" ? PRODUCTS : PRODUCTS.filter(p => p.category === cat));
-    };
-  });
-}
-
-// =======================
-// PRODUCT MODAL
-// =======================
 function openProduct(id) {
-  const modal = document.getElementById("product-modal");
-  const content = document.getElementById("product-content");
-
   const p = PRODUCTS.find(x => x.id === id);
+  const box = document.getElementById("product-content");
 
-  content.innerHTML = `
+  box.innerHTML = `
     <h2>${p.name}</h2>
     <p>${p.description}</p>
-    <h3>$${p.price}</h3>
-    <button class="btn primary add-btn" data-id="${p.id}">Add to cart</button>
+    <strong>$${p.price}</strong>
+    <br><br>
+    <button class="btn primary" onclick="addToCart('${p.id}')">Add to cart</button>
   `;
 
-  modal.classList.remove("hidden");
-
-  // 🔥 FIX: attach button AFTER render
-  document.querySelector(".add-btn").onclick = () => addToCart(id);
+  openModal("product-modal");
 }
 
-// CLOSE PRODUCT MODAL
-document.getElementById("close-product").onclick = () => {
-  document.getElementById("product-modal").classList.add("hidden");
-};
+/* ================= REVIEWS ================= */
 
-// =======================
-// CART
-// =======================
-function initCart() {
-  updateCart();
-
-  document.getElementById("cart-button").onclick = () => {
-    renderCart();
-    document.getElementById("cart-modal").classList.remove("hidden");
-  };
-
-  document.getElementById("close-cart").onclick = () => {
-    document.getElementById("cart-modal").classList.add("hidden");
-  };
-}
-
-function addToCart(id) {
-  cart[id] = (cart[id] || 0) + 1;
-  localStorage.setItem("foot_cart", JSON.stringify(cart));
-  updateCart();
-}
-
-function updateCart() {
-  document.getElementById("cart-count").textContent =
-    Object.values(cart).reduce((a, b) => a + b, 0);
-}
-
-function renderCart() {
-  const container = document.getElementById("cart-items");
-  const totalEl = document.getElementById("cart-total");
-
-  container.innerHTML = "";
-  let total = 0;
-
-  Object.keys(cart).forEach(id => {
-    const p = PRODUCTS.find(x => x.id === id);
-    const qty = cart[id];
-
-    total += p.price * qty;
-
-    const div = document.createElement("div");
-    div.innerHTML = `
-      ${p.name} x${qty}
-      <button class="remove-btn" data-id="${id}">Remove</button>
-    `;
-
-    container.appendChild(div);
-  });
-
-  totalEl.textContent = "Total: $" + total;
-
-  // 🔥 FIX: attach remove buttons
-  document.querySelectorAll(".remove-btn").forEach(btn => {
-    btn.onclick = () => removeFromCart(btn.dataset.id);
-  });
-}
-
-function removeFromCart(id) {
-  delete cart[id];
-  localStorage.setItem("foot_cart", JSON.stringify(cart));
-  renderCart();
-  updateCart();
-}
-
-// =======================
-// REVIEWS
-// =======================
 function initReviews() {
   const form = document.getElementById("review-form");
 
   document.getElementById("open-review").onclick = () => {
-    document.getElementById("review-modal").classList.remove("hidden");
+    openModal("review-modal");
   };
 
   document.getElementById("close-review").onclick = () => {
-    document.getElementById("review-modal").classList.add("hidden");
+    closeModal("review-modal");
   };
 
   form.onsubmit = e => {
     e.preventDefault();
 
     reviews.push({
-      product: review-product.value,
-      name: review-name.value,
-      rating: review-rating.value,
-      title: review-title.value,
-      body: review-body.value
+      product: document.getElementById("review-product").value,
+      name: document.getElementById("review-name").value,
+      rating: document.getElementById("review-rating").value,
+      title: document.getElementById("review-title").value,
+      body: document.getElementById("review-body").value
     });
 
     localStorage.setItem("foot_reviews", JSON.stringify(reviews));
 
-    renderReviews();
     form.reset();
+    closeModal("review-modal");
+    renderReviews();
   };
 
   renderReviews();
@@ -190,23 +172,27 @@ function initReviews() {
 function renderReviews() {
   const list = document.getElementById("review-list");
 
-  list.innerHTML = reviews.map((r, i) => `
-    <div class="review-card">
+  list.innerHTML = reviews.map(r => `
+    <div class="product-card">
       <strong>${r.title}</strong>
-      <div>${"★".repeat(r.rating)}</div>
+      <p>${"⭐".repeat(r.rating)}</p>
       <p>${r.body}</p>
-      <button class="report-btn" data-id="${i}">Report</button>
     </div>
   `).join("");
-
-  // 🔥 FIX: attach report buttons
-  document.querySelectorAll(".report-btn").forEach(btn => {
-    btn.onclick = () => reportReview(btn.dataset.id);
-  });
 }
 
-function reportReview(i) {
-  reviews.splice(i, 1);
-  localStorage.setItem("foot_reviews", JSON.stringify(reviews));
-  renderReviews();
+/* ================= MODALS ================= */
+
+function initModal() {
+  document.getElementById("close-product").onclick = () => {
+    closeModal("product-modal");
+  };
+}
+
+function openModal(id) {
+  document.getElementById(id).classList.remove("hidden");
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.add("hidden");
 }
