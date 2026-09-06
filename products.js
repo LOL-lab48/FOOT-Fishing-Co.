@@ -39,17 +39,18 @@ const PRODUCTS = [
     category: "Teen"
   },
 
-  {
-    id: "rod4",
-    name: "Ugly Stik GX2",
-    description: "Durable all-rounder rod.",
-    bestFor: "All conditions and rough use",
-    why: "Nearly unbreakable design",
-    perfectFor: "You don’t want to worry about damaging your rod",
-    price: 120,
-    category: "Beginner",
-    top: true
-  },
+{
+  id: "rod4",
+  name: "Ugly Stik GX2",
+  description: "Durable all-rounder rod.",
+  bestFor: "All conditions and rough use",
+  why: "Nearly unbreakable design",
+  perfectFor: "You don’t want to worry about damaging your rod",
+  price: 120,
+  category: "Beginner",
+  top: true,
+  image: "images/Rod1.png"
+},
 
   /* ================= BAIT ================= */
 
