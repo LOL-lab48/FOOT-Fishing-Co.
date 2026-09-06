@@ -5,6 +5,11 @@
   --accent2:#0a7bbd;
   --text:#e9fbff;
   --muted:#9ec7cf;
+
+  /* PRO ADDITIONS */
+  --radius:14px;
+  --shadow:0 10px 25px rgba(0,0,0,0.25);
+  --shadow-hover:0 18px 45px rgba(0,0,0,0.35);
 }
 
 /* RESET */
@@ -34,18 +39,17 @@ body{
 }
 
 /* =========================
-   SPACING UPGRADE (IMPORTANT)
+   SPACING SYSTEM (IMPORTANT)
    ========================= */
 
 .section{
-  padding:90px 0; /* BIGGER SPACE = more premium feel */
+  padding:110px 0; /* BIG PRO SPACE */
 }
 
 .hero{
-  padding:110px 0;
+  padding:140px 0;
 }
 
-/* TEXT SPACING */
 h1,h2,h3{
   margin-bottom:14px;
 }
@@ -53,6 +57,7 @@ h1,h2,h3{
 p{
   margin-bottom:12px;
   color:var(--muted);
+  line-height:1.7;
 }
 
 /* =========================
@@ -70,7 +75,7 @@ p{
 }
 
 /* =========================
-   HEADER
+   HEADER (PREMIUM FEEL)
    ========================= */
 
 .site-header{
@@ -86,7 +91,7 @@ p{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:20px 0; /* more breathing room */
+  padding:20px 0;
   gap:20px;
 }
 
@@ -101,7 +106,7 @@ p{
 /* NAV */
 nav{
   display:flex;
-  gap:22px;
+  gap:24px;
   align-items:center;
 }
 
@@ -117,7 +122,7 @@ nav a:hover{
   color:#fff;
 }
 
-/* hover underline (premium feel) */
+/* hover underline */
 nav a::after{
   content:"";
   position:absolute;
@@ -134,7 +139,7 @@ nav a:hover::after{
 }
 
 /* =========================
-   BUTTONS
+   BUTTONS (PREMIUM)
    ========================= */
 
 .btn{
@@ -152,10 +157,12 @@ nav a:hover::after{
 .btn.primary{
   background:linear-gradient(90deg,var(--accent),var(--accent2));
   color:#012027;
+  box-shadow:0 12px 25px rgba(17,196,209,0.25);
 }
 
 .btn.primary:hover{
   transform:translateY(-2px);
+  box-shadow:0 16px 40px rgba(17,196,209,0.35);
 }
 
 /* =========================
@@ -178,27 +185,29 @@ nav a:hover::after{
 }
 
 /* =========================
-   PRODUCT GRID (SPACED)
+   PRODUCT GRID (REAL STORE FEEL)
    ========================= */
 
 .product-grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:26px; /* MORE SPACE */
-  margin-top:20px;
+  gap:30px;
+  margin-top:25px;
 }
 
-/* PRODUCT CARD */
+/* PRODUCT CARD (MAJOR UPGRADE) */
 .product-card{
   background:linear-gradient(180deg,var(--card),#061a21);
   padding:18px;
-  border-radius:14px;
+  border-radius:var(--radius);
   border:1px solid rgba(255,255,255,0.06);
-  transition:.2s;
+  box-shadow:var(--shadow);
+  transition:.25s ease;
 }
 
 .product-card:hover{
-  transform:translateY(-5px);
+  transform:translateY(-8px);
+  box-shadow:var(--shadow-hover);
   border-color:rgba(17,196,209,0.4);
 }
 
@@ -210,7 +219,7 @@ nav a:hover::after{
   display:flex;
   flex-wrap:wrap;
   gap:12px;
-  margin-bottom:25px;
+  margin-bottom:35px;
 }
 
 .filter{
@@ -234,7 +243,7 @@ nav a:hover::after{
 }
 
 /* =========================
-   MODALS
+   MODALS (MORE PREMIUM)
    ========================= */
 
 .modal{
@@ -253,10 +262,11 @@ nav a:hover::after{
 .modal-box{
   background:linear-gradient(180deg,var(--card),#061a21);
   padding:26px;
-  border-radius:14px;
+  border-radius:18px;
   width:92%;
   max-width:520px;
   border:1px solid rgba(255,255,255,0.08);
+  box-shadow:0 25px 60px rgba(0,0,0,0.4);
 }
 
 /* =========================
@@ -267,10 +277,11 @@ nav a:hover::after{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:12px;
+  padding:14px;
   margin:10px 0;
   background:rgba(255,255,255,0.03);
   border-radius:10px;
+  border:1px solid rgba(255,255,255,0.04);
 }
 
 /* QTY CONTROLS */
@@ -291,17 +302,19 @@ nav a:hover::after{
 }
 
 /* =========================
-   FOOTER
+   FOOTER (CLEAN BRAND FEEL)
    ========================= */
 
 .site-footer{
   text-align:center;
-  padding:50px 0; /* more premium spacing */
+  padding:70px 0;
   color:var(--muted);
+  font-size:14px;
+  opacity:0.85;
 }
 
 /* =========================
-   MOBILE
+   MOBILE OPTIMISATION
    ========================= */
 
 @media (max-width:768px){
@@ -315,10 +328,14 @@ nav a:hover::after{
   }
 
   .hero{
-    padding:80px 0;
+    padding:100px 0;
   }
 
   .section{
-    padding:70px 0;
+    padding:80px 0;
+  }
+
+  .product-grid{
+    gap:20px;
   }
 }
