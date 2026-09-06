@@ -25,9 +25,7 @@
 <a href="#contact">Order</a>
 </nav>
 
-<button id="cart-button">
-🛒 <span id="cart-count">0</span>
-</button>
+<button id="cart-button">🛒 <span id="cart-count">0</span></button>
 
 </div>
 </header>
@@ -45,28 +43,27 @@
 <button class="filter active" data-category="all">All</button>
 <button class="filter" data-category="Beginner">Beginners</button>
 <button class="filter" data-category="Teen">Teens</button>
+<button class="filter" data-category="Tackle">Bait & Tackle</button>
 </div>
 
 <div id="product-grid" class="product-grid"></div>
 
 </section>
 
-<!-- ORDER FORM -->
+<!-- ORDER -->
 <section id="contact" class="container">
 <h2>Order / Enquiry</h2>
 
 <form id="order-form">
-
-<input type="text" id="cust-name" placeholder="Your name" required>
-<input type="email" id="cust-email" placeholder="Your email" required>
-<input type="text" id="location" placeholder="Where are you located?" required>
+<input id="cust-name" placeholder="Your name" required>
+<input id="cust-email" placeholder="Your email" required>
+<input id="location" placeholder="Location" required>
 
 <select id="product-select"></select>
 
 <textarea id="message" placeholder="Extra details"></textarea>
 
 <button type="submit">Send Enquiry</button>
-
 </form>
 </section>
 
@@ -75,7 +72,6 @@
 <h2>Reviews</h2>
 
 <button id="open-review">Write Review</button>
-
 <div id="review-list"></div>
 </section>
 
@@ -87,9 +83,9 @@
 <h2>Your Cart</h2>
 
 <div id="shipping-progress"></div>
-
 <div id="cart-items"></div>
 <h3 id="cart-total">Total: $0</h3>
+
 </div>
 </div>
 
@@ -107,7 +103,7 @@
 <button id="close-review">Close</button>
 
 <form id="review-form">
-<input id="review-name" placeholder="Name (or Anonymous)">
+<input id="review-name" placeholder="Name (optional)">
 <select id="review-product"></select>
 
 <select id="review-rating">
@@ -125,7 +121,7 @@
 </div>
 
 <footer>
-© 2026 FOOT Fishing and Co.
+© 2026 FOOT Fishing & Co.
 </footer>
 
 <script src="products.js"></script>
