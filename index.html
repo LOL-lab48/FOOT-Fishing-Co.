@@ -6,7 +6,6 @@
 <title>FOOT Fishing & Co.</title>
 
 <link rel="stylesheet" href="styles.css">
-
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" href="logo.png">
 </head>
@@ -74,23 +73,19 @@
 <h2>About FOOT™</h2>
 
 <p>
-FOOT™ (Fishing Ocean Outdoor Tackle) started with one simple goal:
-help anglers — especially beginners — choose the right gear without confusion.
+FOOT™ (Fishing Ocean Outdoor Tackle) started with one goal:
+help anglers choose the right gear without confusion.
 </p>
 
 <p>
-Instead of overwhelming you with hundreds of options, we highlight gear that’s
-tested, reliable, and actually worth your money.
+We only show tested, reliable gear that’s actually worth your money.
 </p>
 
-<p>
-Built by anglers. For anglers.
-</p>
+<p>Built by anglers. For anglers.</p>
 
 <p style="margin-top:10px;">
 <a href="about.html" class="btn">Read more</a>
 </p>
-
 </section>
 
 <!-- REVIEWS -->
@@ -101,16 +96,20 @@ Built by anglers. For anglers.
 <div id="review-list"></div>
 </section>
 
-<!-- CART -->
+<!-- CART MODAL -->
 <div class="modal hidden" id="cart-modal">
 <div class="modal-box">
+
 <button id="close-cart">Close</button>
 
 <h2>Your Cart</h2>
 
-<div id="shipping-progress" class="shipping-progress"></div>
+<div id="shipping-progress"></div>
 <div id="cart-items"></div>
+
 <h3 id="cart-total">Total: $0</h3>
+
+<button id="checkout-btn" class="btn primary">Enquire / Checkout</button>
 
 </div>
 </div>
@@ -118,18 +117,23 @@ Built by anglers. For anglers.
 <!-- PRODUCT MODAL -->
 <div class="modal hidden" id="product-modal">
 <div class="modal-box">
+
 <button id="close-product">Close</button>
 <div id="product-content"></div>
+
 </div>
 </div>
 
 <!-- REVIEW MODAL -->
 <div class="modal hidden" id="review-modal">
 <div class="modal-box">
+
 <button id="close-review">Close</button>
 
 <form id="review-form">
+
 <input id="review-name" placeholder="Name (optional)">
+
 <select id="review-product"></select>
 
 <select id="review-rating">
@@ -139,49 +143,53 @@ Built by anglers. For anglers.
 </select>
 
 <input id="review-title" placeholder="Title" required>
-<textarea id="review-body"></textarea>
+<textarea id="review-body" placeholder="Write your review..."></textarea>
 
 <button type="submit" class="btn primary">Post</button>
+
 </form>
+
 </div>
 </div>
 
-<!-- ✅ ORDER POPUP (NEW SYSTEM) -->
+<!-- ORDER / ENQUIRY MODAL -->
 <div class="modal hidden" id="order-modal">
 <div class="modal-box">
-<button onclick="closeModal('order-modal')">Close</button>
+
+<button id="close-order">Close</button>
 
 <h2>Order / Enquiry</h2>
 
 <p style="color:var(--muted); margin-bottom:10px;">
-We're not set up for online payments yet — send us an enquiry and we’ll help you out.
+We're not set up for payments yet — send an enquiry and we’ll help you out.
+</p>
+
+<p style="font-size:13px; color:var(--muted);">
+We usually respond within 24–48 hours.
 </p>
 
 <form id="order-form">
+
 <input id="cust-name" placeholder="Your name" required>
 <input id="cust-email" placeholder="Your email" required>
 <input id="location" placeholder="Location" required>
 
-<select id="product-select"></select>
+<select id="order-product-select"></select>
 
 <textarea id="message" placeholder="Extra details"></textarea>
 
 <button type="submit" class="btn primary">Send Enquiry</button>
+
 </form>
+
 </div>
 </div>
 
 <!-- FOOTER -->
 <footer class="site-footer">
 <p>© 2026 FOOT Fishing & Co.</p>
-
-<p style="margin-top:8px;">
-Contact: Gabe.karekinian@gmail.com
-</p>
-
-<p style="font-size:13px; color:var(--muted);">
-Built by anglers.
-</p>
+<p>Contact: Gabe.karekinian@gmail.com</p>
+<p style="font-size:13px; color:var(--muted);">Built by anglers.</p>
 </footer>
 
 <script src="products.js"></script>
