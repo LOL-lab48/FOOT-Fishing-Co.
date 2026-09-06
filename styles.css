@@ -1,496 +1,237 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<title>FOOT Fishing & Co.</title>
-
-<link rel="stylesheet" href="styles.css">
-<link rel="manifest" href="manifest.json">
-<link rel="icon" type="image/png" href="logo.png">
-</head>
-
-<body>
-
-<!-- =========================
-     SHIPPING BAR
-     ========================= -->
-
-<div class="shipping-bar">
-  🚚 Free shipping over $150
-</div>
-
-
-<!-- =========================
-     HEADER
-     ========================= -->
-
-<header class="site-header">
-
-  <div class="container nav-wrap">
-
-    <div class="brand">
-      FOOT™ Fishing & Co.
-    </div>
-
-    <nav class="nav" aria-label="Main navigation">
-      <a href="#shop">Shop</a>
-      <a href="#reviews">Reviews</a>
-      <a href="#about">About</a>
-      <a href="policies.html">Policies</a>
-    </nav>
-
-    <button
-      id="cart-button"
-      class="cart-button"
-      type="button"
-      aria-label="Open shopping cart"
-    >
-      🛒 <span id="cart-count">0</span>
-    </button>
-
-  </div>
-
-</header>
-
-
-<!-- =========================
-     HERO
-     ========================= -->
-
-<section class="hero">
-
-  <div class="container hero-wrap">
-
-    <!-- HERO TEXT -->
-
-    <div class="hero-content">
-
-      <h1>
-        Built by anglers.
-        <br>
-        Tested by real people.
-      </h1>
-
-      <p>
-        We help you find the perfect rod — not just sell you one.
-      </p>
-
-      <div class="hero-trust">
-
-        <span>
-          ✔ Beginner friendly picks
-        </span>
-
-        <span>
-          ✔ Free shipping over $150
-        </span>
-
-      </div>
-
-      <a href="#shop" class="btn primary">
-        Shop rods
-      </a>
-
-    </div>
-
-
-    <!-- HERO IMAGE -->
-
-    <div class="hero-image">
-
-      <img
-        src="images/fishing.jpg"
-        alt="Angler fishing outdoors"
-      >
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =========================
-     SHOP
-     ========================= -->
-
-<section id="shop" class="container section">
-
-  <h2>Shop</h2>
-
-  <p>
-    Find the right gear for how you fish.
-  </p>
-
-  <div class="filter-row">
-
-    <button
-      class="filter active"
-      data-category="all"
-      type="button"
-    >
-      All
-    </button>
-
-    <button
-      class="filter"
-      data-category="Beginner"
-      type="button"
-    >
-      Beginners
-    </button>
-
-    <button
-      class="filter"
-      data-category="Teen"
-      type="button"
-    >
-      Teens
-    </button>
-
-    <button
-      class="filter"
-      data-category="Tackle"
-      type="button"
-    >
-      Bait &amp; Tackle
-    </button>
-
-  </div>
-
-  <div id="product-grid" class="product-grid"></div>
-
-</section>
-
-
-<!-- =========================
-     ABOUT
-     ========================= -->
-
-<section id="about" class="container section">
-
-  <h2>About FOOT™</h2>
-
-  <p>
-    FOOT™ (Fishing Ocean Outdoor Tackle) started with one goal:
-    help anglers choose the right gear without confusion.
-  </p>
-
-  <p>
-    We only show tested, reliable gear that's actually worth your money.
-  </p>
-
-  <p>
-    Built by anglers. For anglers.
-  </p>
-
-  <p style="margin-top:10px;">
-    <a href="about.html" class="btn">
-      Read more
-    </a>
-  </p>
-
-</section>
-
-
-<!-- =========================
-     REVIEWS
-     ========================= -->
-
-<section id="reviews" class="container section">
-
-  <h2>Reviews</h2>
-
-  <p>
-    See what anglers think about the gear we recommend.
-  </p>
-
-  <button
-    id="open-review"
-    class="btn primary"
-    type="button"
-  >
-    Write Review
-  </button>
-
-  <div id="review-list"></div>
-
-</section>
-
-
-<!-- =========================
-     CART MODAL
-     ========================= -->
-
-<div
-  class="modal hidden"
-  id="cart-modal"
-  role="dialog"
-  aria-modal="true"
-  aria-labelledby="cart-title"
->
-
-  <div class="modal-box">
-
-    <button
-      id="close-cart"
-      type="button"
-      aria-label="Close shopping cart"
-    >
-      Close
-    </button>
-
-    <h2 id="cart-title">
-      Your Cart
-    </h2>
-
-    <div
-      id="shipping-progress"
-      class="shipping-progress"
-    ></div>
-
-    <div id="cart-items"></div>
-
-    <h3 id="cart-total">
-      Total: $0
-    </h3>
-
-    <button
-      id="checkout-btn"
-      class="btn primary"
-      type="button"
-    >
-      Enquire / Checkout
-    </button>
-
-  </div>
-
-</div>
-
-
-<!-- =========================
-     PRODUCT MODAL
-     ========================= -->
-
-<div
-  class="modal hidden"
-  id="product-modal"
-  role="dialog"
-  aria-modal="true"
-  aria-labelledby="product-modal-title"
->
-
-  <div class="modal-box">
-
-    <button
-      id="close-product"
-      type="button"
-      aria-label="Close product details"
-    >
-      Close
-    </button>
-
-    <div id="product-content"></div>
-
-  </div>
-
-</div>
-
-
-<!-- =========================
-     REVIEW MODAL
-     ========================= -->
-
-<div
-  class="modal hidden"
-  id="review-modal"
-  role="dialog"
-  aria-modal="true"
-  aria-labelledby="review-modal-title"
->
-
-  <div class="modal-box">
-
-    <button
-      id="close-review"
-      type="button"
-      aria-label="Close review form"
-    >
-      Close
-    </button>
-
-    <h2 id="review-modal-title">
-      Write a Review
-    </h2>
-
-    <form id="review-form">
-
-      <input
-        id="review-name"
-        type="text"
-        placeholder="Name (optional)"
-        autocomplete="name"
-      >
-
-      <select
-        id="review-product"
-        required
-      ></select>
-
-      <select
-        id="review-rating"
-        required
-      >
-        <option value="5">5 Stars</option>
-        <option value="4">4 Stars</option>
-        <option value="3">3 Stars</option>
-      </select>
-
-      <input
-        id="review-title"
-        type="text"
-        placeholder="Review title"
-        required
-      >
-
-      <textarea
-        id="review-body"
-        placeholder="Write your review..."
-        rows="5"
-      ></textarea>
-
-      <button
-        type="submit"
-        class="btn primary"
-      >
-        Post Review
-      </button>
-
-    </form>
-
-  </div>
-
-</div>
-
-
-<!-- =========================
-     ORDER / ENQUIRY MODAL
-     ========================= -->
-
-<div
-  class="modal hidden"
-  id="order-modal"
-  role="dialog"
-  aria-modal="true"
-  aria-labelledby="order-modal-title"
->
-
-  <div class="modal-box">
-
-    <button
-      id="close-order"
-      type="button"
-      aria-label="Close enquiry form"
-    >
-      Close
-    </button>
-
-    <h2 id="order-modal-title">
-      Order / Enquiry
-    </h2>
-
-    <p style="color:var(--muted); margin-bottom:10px;">
-      We're not set up for payments yet — send an enquiry and
-      we'll help you out.
-    </p>
-
-    <p style="font-size:13px; color:var(--muted); margin-bottom:20px;">
-      We usually respond within 24–48 hours.
-    </p>
-
-    <form id="order-form">
-
-      <input
-        id="cust-name"
-        type="text"
-        placeholder="Your name"
-        autocomplete="name"
-        required
-      >
-
-      <input
-        id="cust-email"
-        type="email"
-        placeholder="Your email"
-        autocomplete="email"
-        required
-      >
-
-      <input
-        id="location"
-        type="text"
-        placeholder="Location"
-        autocomplete="address-level2"
-        required
-      >
-
-      <select
-        id="order-product-select"
-        required
-      ></select>
-
-      <textarea
-        id="message"
-        placeholder="Extra details"
-        rows="5"
-      ></textarea>
-
-      <button
-        type="submit"
-        class="btn primary"
-      >
-        Send Enquiry
-      </button>
-
-    </form>
-
-  </div>
-
-</div>
-
-
-<!-- =========================
-     FOOTER
-     ========================= -->
-
-<footer class="site-footer">
-
-  <p>
-    © 2026 FOOT Fishing &amp; Co.
-  </p>
-
-  <p>
-    Contact:
-    <a href="mailto:Gabe.karekinian@gmail.com">
-      Gabe.karekinian@gmail.com
-    </a>
-  </p>
-
-  <p style="font-size:13px; color:var(--muted);">
-    Built by anglers.
-  </p>
-
-</footer>
-
-
-<!-- =========================
-     JAVASCRIPT
-     ========================= -->
-
-<script src="products.js"></script>
-<script src="app.js"></script>
-
-</body>
-</html>
+:root {
+  --bg:#02141b;
+  --card:#08242e;
+  --accent:#11c4d1;
+  --accent2:#0a7bbd;
+  --text:#e9fbff;
+  --muted:#9ec7cf;
+
+  --radius:14px;
+  --shadow:0 10px 25px rgba(0,0,0,0.25);
+  --shadow-hover:0 18px 45px rgba(0,0,0,0.35);
+}
+
+/* RESET */
+* {
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* LINKS */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* CONTAINER */
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 0 20px;
+}
+
+/* HEADER */
+.site-header {
+  background: rgba(8, 36, 46, 0.9);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.site-header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 0;
+}
+
+nav {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+nav a {
+  position: relative;
+  padding: 6px 0;
+  color: var(--muted);
+}
+
+nav a:hover {
+  color: #fff;
+}
+
+/* HERO */
+.hero {
+  padding: 140px 0;
+}
+
+.hero-wrap,
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+}
+
+.hero img,
+.hero-img {
+  width: 100%;
+  border-radius: var(--radius);
+}
+
+/* SECTIONS */
+.section {
+  padding: 110px 0;
+}
+
+/* BUTTONS */
+.btn {
+  display: inline-block;
+  padding: 10px 16px;
+  border-radius: var(--radius);
+  background: rgba(255,255,255,0.05);
+  color: var(--text);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn.primary {
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  color: #012027;
+  box-shadow: 0 12px 25px rgba(17,196,209,0.25);
+}
+
+.btn.primary:hover {
+  box-shadow: 0 16px 40px rgba(17,196,209,0.35);
+}
+
+/* FILTERS */
+.filters {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 20px 0;
+}
+
+.filter {
+  padding: 8px 14px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.03);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.filter.active {
+  background: var(--accent);
+  color: #001418;
+}
+
+/* PRODUCT GRID */
+.product-grid,
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+  margin-top: 25px;
+}
+
+/* PRODUCT CARD */
+.product-card,
+.card {
+  background: linear-gradient(180deg, var(--card), #061a21);
+  padding: 18px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: var(--shadow);
+  transition: 0.25s ease;
+}
+
+.product-card:hover,
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-hover);
+  border-color: rgba(17,196,209,0.4);
+}
+
+/* MODALS */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.2s ease;
+}
+
+.modal.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal-box {
+  background: linear-gradient(180deg, var(--card), #061a21);
+  padding: 26px;
+  border-radius: 18px;
+  width: 92%;
+  max-width: 520px;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+}
+
+/* CART ITEMS */
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  margin: 10px 0;
+  background: rgba(255,255,255,0.03);
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+/* FOOTER */
+.site-footer {
+  text-align: center;
+  padding: 70px 0;
+  color: var(--muted);
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .hero-wrap,
+  .hero-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    padding: 100px 0;
+  }
+
+  .section {
+    padding: 80px 0;
+  }
+
+  nav {
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+}
