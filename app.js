@@ -109,9 +109,10 @@ function initShop() {
       document.querySelectorAll(".filter").forEach(b=>b.classList.remove("active"));
       btn.classList.add("active");
 
-      render(cat === "all"
-        ? PRODUCTS
-        : PRODUCTS.filter(p => p.category === cat)
+      render(
+        cat === "all"
+          ? PRODUCTS
+          : PRODUCTS.filter(p => p.category === cat)
       );
     };
   });
@@ -128,15 +129,15 @@ function render(list) {
     const div = document.createElement("div");
     div.className = "product-card";
 
-    const rating = "⭐".repeat(Math.floor(Math.random()*2)+4); // fake rating 4–5 stars
-
     div.innerHTML = `
       <h3>${p.name}</h3>
       <p>${p.description}</p>
 
-      <p class="rating">${rating}</p>
+      <small>${p.type} • ${p.category}</small>
 
-      ${p.price < 150 ? '<span class="badge">🔥 Top Pick</span>' : ''}
+      <p class="rating">⭐⭐⭐⭐⭐</p>
+
+      ${p.top ? '<span class="badge">🔥 Top Pick</span>' : ''}
 
       <strong>$${p.price}</strong>
       <br><br>
