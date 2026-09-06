@@ -60,13 +60,17 @@
     <button class="filter" data-category="Teen">Teens</button>
   </div>
 
+  <!-- ✅ REQUIRED FOR JS -->
   <div id="product-grid" class="product-grid"></div>
 
 </section>
 
 <section id="reviews" class="section container">
   <h2>Reviews</h2>
+
+  <!-- ✅ REQUIRED FOR JS -->
   <button id="open-review" class="btn primary">Write review</button>
+
   <div id="review-list"></div>
 </section>
 
@@ -82,23 +86,31 @@
 <!-- 🛒 CART MODAL -->
 <div class="modal hidden" id="cart-modal">
   <div class="modal-box">
-    <button id="close-cart">Close</button>
+
+    <!-- ✅ IMPORTANT: keep IDs EXACT -->
+    <button id="close-cart" class="btn">Close</button>
 
     <h2>Your Cart</h2>
 
-    <!-- 🔥 FREE SHIPPING MESSAGE -->
+    <!-- ✅ MUST EXIST -->
     <div id="shipping-progress" class="shipping-progress"></div>
 
+    <!-- ✅ MUST EXIST -->
     <div id="cart-items"></div>
 
+    <!-- ✅ MUST EXIST -->
     <h3 id="cart-total">Total: $0</h3>
+
   </div>
 </div>
 
 <!-- PRODUCT MODAL -->
 <div class="modal hidden" id="product-modal">
   <div class="modal-box">
-    <button id="close-product">Close</button>
+
+    <!-- ✅ REQUIRED -->
+    <button id="close-product" class="btn">Close</button>
+
     <div id="product-content"></div>
   </div>
 </div>
@@ -106,10 +118,13 @@
 <!-- REVIEW MODAL -->
 <div class="modal hidden" id="review-modal">
   <div class="modal-box">
-    <button id="close-review">Close</button>
+
+    <!-- ✅ REQUIRED -->
+    <button id="close-review" class="btn">Close</button>
 
     <form id="review-form">
       <select id="review-product"></select>
+
       <input id="review-name" placeholder="Name" required>
 
       <select id="review-rating">
@@ -135,6 +150,7 @@
   </a>
 </footer>
 
+<!-- ✅ VERY IMPORTANT ORDER -->
 <script src="products.js"></script>
 <script src="app.js"></script>
 
