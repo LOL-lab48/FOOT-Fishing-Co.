@@ -95,25 +95,43 @@ function renderCart(){
     </div>`;
   }).join("");
 
-  totalEl.textContent = "Total: $" + total;
+  if (totalEl) totalEl.textContent = "Total: $" + total;
 
-  /* 🔥 SHIPPING SYSTEM */
-  if(total >= FREE_SHIPPING){
-    progress.className = "shipping-progress shipping-success";
-    progress.innerHTML = "✅ FREE SHIPPING unlocked!";
-  } else {
-    const remain = FREE_SHIPPING - total;
-    const percent = Math.min((total/FREE_SHIPPING)*100,100);
+  /* 🔥 SMART SHIPPING SYSTEM (YOUR RULES) */
+  if(progress){
 
-    progress.className = "shipping-progress";
-    progress.innerHTML = `
-      You're $${remain} away from FREE shipping!<br>
-      Add $${remain} bait to unlock it!
+    if(total === 0){
+      progress.className = "shipping-progress";
+      progress.innerHTML = `
+        Start your order to unlock FREE shipping over $${FREE_SHIPPING} 🚚
+      `;
+    }
+    else if(total >= FREE_SHIPPING){
+      progress.className = "shipping-progress shipping-success";
+      progress.innerHTML = "✅ FREE SHIPPING unlocked!";
+    }
+    else{
+      const remain = FREE_SHIPPING - total;
+      const percent = Math.min((total/FREE_SHIPPING)*100,100);
 
-      <div class="progress-bar">
-        <div class="progress-fill" style="width:${percent}%"></div>
-      </div>
-    `;
+      let message = "";
+
+      if(remain <= 100){
+        message = `You're so close! Add $${remain} more for FREE shipping!`;
+      } else {
+        message = `Add $${remain} more to unlock FREE shipping!`;
+      }
+
+      progress.className = "shipping-progress";
+      progress.innerHTML = `
+        ${message}
+
+        <div class="progress-bar">
+          <div class="progress-fill" style="width:${percent}%"></div>
+        </div>
+      `;
+    }
+
   }
 }
 
@@ -151,7 +169,7 @@ function render(list){
     div.innerHTML = `
       <h3>${p.name}</h3>
       <p>${p.description}</p>
-      <small>${p.type} • ${p.category}</small>
+      <small>${p.type || "Gear"} • ${p.category}</small>
 
       <p class="rating">⭐⭐⭐⭐⭐</p>
 
@@ -204,9 +222,9 @@ function initReviews(){
     e.preventDefault();
 
     reviews.push({
-      title: review-title.value,
-      body: review-body.value,
-      rating: review-rating.value
+      title: document.getElementById("review-title").value,
+      body: document.getElementById("review-body").value,
+      rating: document.getElementById("review-rating").value
     });
 
     localStorage.setItem("foot_reviews", JSON.stringify(reviews));
