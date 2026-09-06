@@ -23,6 +23,7 @@
 <a href="#shop">Shop</a>
 <a href="#reviews">Reviews</a>
 <a href="#contact">Order</a>
+<a href="#about">About</a>
 </nav>
 
 <button id="cart-button">🛒 <span id="cart-count">0</span></button>
@@ -30,12 +31,26 @@
 </div>
 </header>
 
+<!-- HERO -->
 <section class="hero">
-<h1>Built by anglers. For anglers.</h1>
-<p>Find the perfect rod — not just any rod.</p>
+<div class="container">
+
+<h1>Built by anglers. Tested by real people.</h1>
+<p>We help you find the perfect rod — not just sell you one.</p>
+
+<div class="hero-trust">
+<span>✔ Beginner friendly picks</span>
+<span>✔ Real reviews (not fake hype)</span>
+<span>✔ Free shipping over $150</span>
+</div>
+
+<a href="#shop" class="btn primary">Shop rods</a>
+
+</div>
 </section>
 
-<section id="shop" class="container">
+<!-- SHOP -->
+<section id="shop" class="container section">
 
 <h2>Shop</h2>
 
@@ -50,9 +65,33 @@
 
 </section>
 
+<!-- ABOUT (TRUST BOOST) -->
+<section id="about" class="container section">
+<h2>About FOOT™</h2>
+
+<p>
+FOOT™ (Fishing Ocean Outdoor Tackle) started with one simple goal:
+help anglers — especially beginners — choose the right gear without confusion.
+</p>
+
+<p>
+Instead of overwhelming you with hundreds of options, we highlight gear that’s
+tested, reliable, and actually worth your money.
+</p>
+
+<p>
+Built by anglers. For anglers.
+</p>
+
+</section>
+
 <!-- ORDER -->
-<section id="contact" class="container">
+<section id="contact" class="container section">
 <h2>Order / Enquiry</h2>
+
+<p style="color:var(--muted); margin-bottom:10px;">
+Not ready for full checkout yet — send us an enquiry and we’ll help you get set up.
+</p>
 
 <form id="order-form">
 <input id="cust-name" placeholder="Your name" required>
@@ -63,15 +102,15 @@
 
 <textarea id="message" placeholder="Extra details"></textarea>
 
-<button type="submit">Send Enquiry</button>
+<button type="submit" class="btn primary">Send Enquiry</button>
 </form>
 </section>
 
 <!-- REVIEWS -->
-<section id="reviews" class="container">
+<section id="reviews" class="container section">
 <h2>Reviews</h2>
 
-<button id="open-review">Write Review</button>
+<button id="open-review" class="btn primary">Write Review</button>
 <div id="review-list"></div>
 </section>
 
@@ -115,13 +154,22 @@
 <input id="review-title" placeholder="Title" required>
 <textarea id="review-body"></textarea>
 
-<button type="submit">Post</button>
+<button type="submit" class="btn primary">Post</button>
 </form>
 </div>
 </div>
 
-<footer>
-© 2026 FOOT Fishing & Co.
+<!-- FOOTER (TRUST BOOST) -->
+<footer class="site-footer">
+<p>© 2026 FOOT Fishing & Co.</p>
+
+<p style="margin-top:8px;">
+Contact: your@email.com
+</p>
+
+<p style="font-size:13px; color:var(--muted);">
+Built by anglers. No fake hype.
+</p>
 </footer>
 
 <script src="products.js"></script>
