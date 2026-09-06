@@ -1,156 +1,85 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>FOOT™ — Fishing Ocean Outdoor Tackle</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FOOT Fishing & Co.</title>
 
-  <link rel="icon" type="image/png" href="logo.png">
-  <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
-<!-- 🚚 SHIPPING BAR -->
-<div class="shipping-bar" id="shipping-bar">
-  🚚 Free shipping on orders over $150
+<div class="shipping-bar">
+🚚 Free shipping over $150
 </div>
 
 <header class="site-header">
-  <div class="container nav-wrap">
+<div class="container nav-wrap">
 
-    <a class="brand" href="#">
-      <span class="brand-mark">FOOT™</span>
-      <span class="brand-copy">
-        <strong>FOOT™</strong>
-        <small>Fishing Ocean Outdoor Tackle</small>
-      </span>
-    </a>
+<div class="brand">FOOT™ Fishing & Co.</div>
 
-    <nav class="nav">
-      <a href="#shop">Shop</a>
-      <a href="#reviews">Reviews</a>
-      <a href="#about">About</a>
-    </nav>
+<nav>
+<a href="#shop">Shop</a>
+<a href="#reviews">Reviews</a>
+<a href="#contact">Order</a>
+</nav>
 
-    <button class="cart-button" id="cart-button">
-      🛒 <span id="cart-count">0</span>
-    </button>
+<button id="cart-button">
+🛒 <span id="cart-count">0</span>
+</button>
 
-  </div>
+</div>
 </header>
 
-<main>
-
 <section class="hero">
-  <div class="container">
-    <h1>Find the rod that fits your fishing.</h1>
-    <p>Built by anglers. For anglers.</p>
-    <a href="#shop" class="btn primary">Shop rods</a>
-  </div>
+<h1>Built by anglers. For anglers.</h1>
+<p>Find the perfect rod — not just any rod.</p>
 </section>
 
-<section id="shop" class="section container">
+<!-- SHOP -->
+<section id="shop" class="container">
+<h2>Shop</h2>
 
-  <h2>Shop</h2>
-
-  <div class="filter-row">
-    <button class="filter active" data-category="all">All</button>
-    <button class="filter" data-category="Beginner">Beginners</button>
-    <button class="filter" data-category="Teen">Teens</button>
-  </div>
-
-  <!-- ✅ REQUIRED FOR JS -->
-  <div id="product-grid" class="product-grid"></div>
-
+<div id="product-grid"></div>
 </section>
 
-<section id="reviews" class="section container">
-  <h2>Reviews</h2>
+<!-- CONTACT / ORDER FORM -->
+<section id="contact" class="container">
+<h2>Order / Enquiry</h2>
 
-  <!-- ✅ REQUIRED FOR JS -->
-  <button id="open-review" class="btn primary">Write review</button>
+<form id="order-form">
 
-  <div id="review-list"></div>
+<input type="text" id="cust-name" placeholder="Your name" required>
+
+<input type="email" id="cust-email" placeholder="Your email" required>
+
+<input type="text" id="location" placeholder="Where are you located?" required>
+
+<select id="product-select">
+<option value="">Select a rod</option>
+</select>
+
+<textarea id="message" placeholder="Extra details (optional)"></textarea>
+
+<button type="submit" class="btn primary">Send Enquiry</button>
+
+</form>
 </section>
 
-<section id="about" class="section container">
-  <h2>About FOOT™</h2>
-  <p>
-    FOOT™ stands for <strong>Fishing Ocean Outdoor Tackle</strong> — built by anglers, for anglers.
-  </p>
+<!-- REVIEWS -->
+<section id="reviews" class="container">
+<h2>Reviews</h2>
+
+<button id="open-review">Write Review</button>
+
+<div id="review-list"></div>
 </section>
 
-</main>
-
-<!-- 🛒 CART MODAL -->
-<div class="modal hidden" id="cart-modal">
-  <div class="modal-box">
-
-    <!-- ✅ IMPORTANT: keep IDs EXACT -->
-    <button id="close-cart" class="btn">Close</button>
-
-    <h2>Your Cart</h2>
-
-    <!-- ✅ MUST EXIST -->
-    <div id="shipping-progress" class="shipping-progress"></div>
-
-    <!-- ✅ MUST EXIST -->
-    <div id="cart-items"></div>
-
-    <!-- ✅ MUST EXIST -->
-    <h3 id="cart-total">Total: $0</h3>
-
-  </div>
-</div>
-
-<!-- PRODUCT MODAL -->
-<div class="modal hidden" id="product-modal">
-  <div class="modal-box">
-
-    <!-- ✅ REQUIRED -->
-    <button id="close-product" class="btn">Close</button>
-
-    <div id="product-content"></div>
-  </div>
-</div>
-
-<!-- REVIEW MODAL -->
-<div class="modal hidden" id="review-modal">
-  <div class="modal-box">
-
-    <!-- ✅ REQUIRED -->
-    <button id="close-review" class="btn">Close</button>
-
-    <form id="review-form">
-      <select id="review-product"></select>
-
-      <input id="review-name" placeholder="Name" required>
-
-      <select id="review-rating">
-        <option value="5">5</option>
-        <option value="4">4</option>
-        <option value="3">3</option>
-      </select>
-
-      <input id="review-title" placeholder="Title" required>
-      <textarea id="review-body" placeholder="Review"></textarea>
-
-      <button class="btn primary" type="submit">Post</button>
-    </form>
-  </div>
-</div>
-
-<footer class="site-footer">
-  <div>© 2026 FOOT™ Fishing and Co.</div>
-  <div>Made by <strong>LOL-labs</strong></div>
-
-  <a href="https://lol-lab48.github.io/LOL-Labs/" target="_blank">
-    Click here to find out more
-  </a>
+<footer>
+© 2026 FOOT Fishing and Co.
 </footer>
 
-<!-- ✅ VERY IMPORTANT ORDER -->
 <script src="products.js"></script>
 <script src="app.js"></script>
 
